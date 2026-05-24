@@ -1,0 +1,207 @@
+/* Google Fonts: Space Grotesk (Headings) and JetBrains Mono (Scores, Dice, UI values) */
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+:root {
+  font-family: 'Space Grotesk', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+}
+
+.mono-font {
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(15, 17, 21, 0.5);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(24acc15, 0.2);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(24acc15, 0.4);
+}
+
+/* Glassmorphism Classes */
+.glass-panel {
+  background: rgba(26, 29, 36, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.glass-panel-light {
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+/* Glow Border Animations */
+.glow-gold {
+  box-shadow: 0 0 15px rgba(250, 204, 21, 0.15);
+  border-color: rgba(250, 204, 21, 0.3);
+}
+
+.glow-gold:hover {
+  box-shadow: 0 0 25px rgba(250, 204, 21, 0.35);
+  border-color: rgba(250, 204, 21, 0.6);
+}
+
+.glow-teal {
+  box-shadow: 0 0 15px rgba(6, 182, 212, 0.15);
+  border-color: rgba(6, 182, 212, 0.3);
+}
+
+.glow-teal:hover {
+  box-shadow: 0 0 25px rgba(6, 182, 212, 0.35);
+  border-color: rgba(6, 182, 212, 0.6);
+}
+
+/* 3D Dice Styling */
+.dice-scene {
+  width: 60px;
+  height: 60px;
+  perspective: 600px;
+  display: inline-block;
+  margin: 10px;
+}
+
+.dice {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.dice-face {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  border-radius: 8px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  padding: 6px;
+  box-sizing: border-box;
+  align-items: center;
+  justify-items: center;
+}
+
+/* Dark and Light mode faces */
+.dark .dice-face {
+  background: #1e293b;
+  border: 2px solid #facc15;
+  box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.5);
+}
+.light .dice-face {
+  background: #ffffff;
+  border: 2px solid #0f172a;
+  box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Dice dots */
+.dice-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+.dark .dice-dot {
+  background-color: #facc15;
+  box-shadow: 0 0 4px #facc15;
+}
+.light .dice-dot {
+  background-color: #0f172a;
+}
+
+/* Dot Positions */
+.face-1 .dice-dot:nth-child(1) { grid-area: 2 / 2; }
+
+.face-2 .dice-dot:nth-child(1) { grid-area: 1 / 1; }
+.face-2 .dice-dot:nth-child(2) { grid-area: 3 / 3; }
+
+.face-3 .dice-dot:nth-child(1) { grid-area: 1 / 1; }
+.face-3 .dice-dot:nth-child(2) { grid-area: 2 / 2; }
+.face-3 .dice-dot:nth-child(3) { grid-area: 3 / 3; }
+
+.face-4 .dice-dot:nth-child(1) { grid-area: 1 / 1; }
+.face-4 .dice-dot:nth-child(2) { grid-area: 1 / 3; }
+.face-4 .dice-dot:nth-child(3) { grid-area: 3 / 1; }
+.face-4 .dice-dot:nth-child(4) { grid-area: 3 / 3; }
+
+.face-5 .dice-dot:nth-child(1) { grid-area: 1 / 1; }
+.face-5 .dice-dot:nth-child(2) { grid-area: 1 / 3; }
+.face-5 .dice-dot:nth-child(3) { grid-area: 2 / 2; }
+.face-5 .dice-dot:nth-child(4) { grid-area: 3 / 1; }
+.face-5 .dice-dot:nth-child(5) { grid-area: 3 / 3; }
+
+.face-6 .dice-dot:nth-child(1) { grid-area: 1 / 1; }
+.face-6 .dice-dot:nth-child(2) { grid-area: 1 / 3; }
+.face-6 .dice-dot:nth-child(3) { grid-area: 2 / 1; }
+.face-6 .dice-dot:nth-child(4) { grid-area: 2 / 3; }
+.face-6 .dice-dot:nth-child(5) { grid-area: 3 / 1; }
+.face-6 .dice-dot:nth-child(6) { grid-area: 3 / 3; }
+
+/* 3D transforms for cube setup */
+.face-1 { transform: rotateY(0deg) translateZ(30px); }
+.face-2 { transform: rotateY(180deg) translateZ(30px); }
+.face-3 { transform: rotateY(90deg) translateZ(30px); }
+.face-4 { transform: rotateY(-90deg) translateZ(30px); }
+.face-5 { transform: rotateX(90deg) translateZ(30px); }
+.face-6 { transform: rotateX(-90deg) translateZ(30px); }
+
+/* Rolling animation class */
+.dice.rolling {
+  animation: spinCube 1s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+@keyframes spinCube {
+  0% { transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg); }
+  100% { transform: rotateX(360deg) rotateY(720deg) rotateZ(360deg); }
+}
+
+/* Face display angles */
+.dice.show-1 { transform: rotateX(0deg) rotateY(0deg); }
+.dice.show-2 { transform: rotateX(0deg) rotateY(-180deg); }
+.dice.show-3 { transform: rotateX(0deg) rotateY(-90deg); }
+.dice.show-4 { transform: rotateX(0deg) rotateY(90deg); }
+.dice.show-5 { transform: rotateX(-90deg) rotateY(0deg); }
+.dice.show-6 { transform: rotateX(90deg) rotateY(0deg); }
+
+/* Slot Shuffling Animation (Giveaway) */
+@keyframes slotShuffle {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  50% {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  51% {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.animate-shuffle {
+  animation: slotShuffle 0.15s ease-in-out infinite;
+}
+
+/* Keyframes for simple scale feedback */
+@keyframes pulseGlow {
+  0%, 100% { box-shadow: 0 0 10px rgba(250, 204, 21, 0.2); }
+  50% { box-shadow: 0 0 25px rgba(250, 204, 21, 0.5); }
+}
+
+.pulse-glow {
+  animation: pulseGlow 2s infinite;
+}
