@@ -1,494 +1,254 @@
 <!DOCTYPE html>
-<html lang="tr" class="dark">
+<html lang="tr" data-theme="dark">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BlitzHub Arcade - Oyun & Çekiliş Portalı</title>
-  <!-- Tailwind CSS v4 Browser Compiler -->
-  <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
-  <!-- Custom CSS for 3D elements, D-pad, and backgrounds -->
-  <link rel="stylesheet" href="styles.css">
-  <!-- Lucide Icons CDN -->
-  <script src="https://unpkg.com/lucide@latest"></script>
-  <!-- Canvas Confetti CDN -->
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-
-  <!-- Tailwind CSS v4 Theme Overrides -->
-  <style type="text/tailwindcss">
-    @theme {
-      --color-brand-gold: #facc15;
-      --color-brand-gold-hover: #eab308;
-      --color-brand-teal: #06b6d4;
-      --color-brand-teal-hover: #0891b2;
-      --color-brand-dark-bg: #050609;
-      --color-brand-dark-card: #111827;
-      --color-brand-light-bg: #f1f5f9;
-      --color-brand-light-card: #ffffff;
-      --color-danger-crimson: #ef4444;
-      --color-success-emerald: #10b981;
-    }
-    @variant dark (&:is(.dark *));
-  </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BlitzHub — Mini Oyunlar</title>
+  <meta name="description" content="Taş Kağıt Makas, Zar Atma ve Çekiliş yapabileceğiniz mini oyun platformu." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
 </head>
-<body class="bg-dot-pattern text-slate-800 min-h-screen transition-colors duration-300 dark:text-slate-200">
+<body>
 
-  <!-- Main Portal Layout -->
-  <div class="flex flex-col min-h-screen">
-    
-    <!-- Top Header -->
-    <header class="py-6 px-6 sticky top-0 z-50 bg-white/90 border-b border-slate-200 dark:bg-brand-dark-bg/90 dark:border-slate-900 backdrop-blur-md">
-      <div class="max-w-7xl mx-auto flex items-center justify-between">
-        
-        <!-- Logo -->
-        <div class="flex items-center gap-3">
-          <div class="bg-amber-100 p-2 rounded-xl border border-amber-300 flex items-center justify-center pulse-glow dark:bg-brand-gold/10 dark:border-brand-gold/30">
-            <i data-lucide="gamepad-2" class="w-6 h-6 text-amber-700 dark:text-brand-gold"></i>
-          </div>
-          <div>
-            <h1 class="text-2xl font-black tracking-widest bg-gradient-to-r from-amber-700 via-amber-600 to-teal-800 bg-clip-text text-transparent dark:from-brand-gold dark:via-yellow-400 dark:to-brand-teal">BLITZHUB ARCADE</h1>
-            <p class="text-xs text-slate-500 font-bold uppercase tracking-wider dark:text-slate-400">Mini Oyun &amp; Çekiliş Konsolu</p>
-          </div>
+  <!-- ═══════════════════════════════════════ NAVBAR ═══════════════════════════════════════ -->
+  <header class="navbar">
+    <div class="container navbar-inner">
+      <a href="#" class="logo">
+        <span class="logo-icon">⚡</span>
+        <span class="logo-text">BlitzHub</span>
+      </a>
+      <button id="theme-toggle" class="theme-btn" title="Temayı değiştir" aria-label="Temayı değiştir">
+        <span id="theme-icon">☀️</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ═══════════════════════════════════════ HERO ═══════════════════════════════════════ -->
+  <section class="hero">
+    <div class="container">
+      <p class="hero-label">Mini Oyun Platformu</p>
+      <h1 class="hero-title">Hızlı. Eğlenceli. <span class="accent">Blitz.</span></h1>
+      <p class="hero-sub">Taş Kağıt Makas, Zar Atma ve Çekiliş — tek sayfada.</p>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════ SEKMELER ═══════════════════════════════════════ -->
+  <main class="container main-content">
+    <div class="tabs" role="tablist">
+      <button class="tab active" id="tab-rps" role="tab" aria-controls="panel-rps" aria-selected="true" onclick="switchTab('rps')">
+        ✊ Taş Kağıt Makas
+      </button>
+      <button class="tab" id="tab-dice" role="tab" aria-controls="panel-dice" aria-selected="false" onclick="switchTab('dice')">
+        🎲 Zar At
+      </button>
+      <button class="tab" id="tab-raffle" role="tab" aria-controls="panel-raffle" aria-selected="false" onclick="switchTab('raffle')">
+        🎁 Çekiliş
+      </button>
+    </div>
+
+    <!-- ─────────── TAŞ KAĞIT MAKAS ─────────── -->
+    <div class="panel" id="panel-rps" role="tabpanel" aria-labelledby="tab-rps">
+      <!-- Skor -->
+      <div class="score-bar">
+        <div class="score-block">
+          <span class="score-label">Sen</span>
+          <span class="score-num" id="rps-score-player">0</span>
         </div>
-
-        <!-- Controls -->
-        <div class="flex items-center gap-4">
-          <!-- Theme Toggle -->
-          <button id="theme-toggle" class="p-2.5 rounded-lg border border-slate-200 bg-white hover:bg-slate-100 cursor-pointer transition-all duration-200 text-slate-600 hover:text-amber-700 dark:border-slate-850 dark:bg-slate-900 dark:hover:bg-slate-800/50 dark:text-slate-400 dark:hover:text-brand-gold" title="Temayı Değiştir">
-            <i data-lucide="sun" id="sun-icon" class="w-5 h-5 hidden"></i>
-            <i data-lucide="moon" id="moon-icon" class="w-5 h-5"></i>
-          </button>
-          
-          <!-- GitHub Link -->
-          <a id="github-link" href="https://github.com/BlitzHan/blitzhub" target="_blank" class="flex items-center gap-2 bg-slate-100 hover:bg-slate-200 px-4 py-2 rounded-lg border border-slate-200 transition-all duration-200 cursor-pointer font-bold text-sm text-slate-700 dark:bg-slate-900 dark:hover:bg-black dark:border-slate-800 dark:text-slate-350">
-            <i data-lucide="github" class="w-4 h-4"></i>
-            <span>GitHub</span>
-          </a>
+        <div class="score-block center">
+          <span class="score-label">Beraberlik</span>
+          <span class="score-num draw" id="rps-score-draws">0</span>
         </div>
-
-      </div>
-    </header>
-
-    <!-- Main Content Area -->
-    <main class="flex-grow max-w-7xl w-full mx-auto p-4 md:p-6 flex flex-col gap-12">
-      
-      <!-- 1. OYUN SEÇİM GRİDİ (GAME PORTAL CARDS) -->
-      <section class="grid grid-cols-1 md:grid-cols-3 gap-8 pt-4">
-        
-        <!-- Card 1: Taş Kağıt Makas -->
-        <div class="arcade-card p-6 flex flex-col justify-between items-center text-center gap-4">
-          <div class="w-20 h-20 rounded-2xl bg-teal-50 border border-teal-200 flex items-center justify-center dark:bg-brand-teal/5 dark:border-brand-teal/20">
-            <!-- Customized Clash Vector SVG -->
-            <svg class="w-12 h-12 text-teal-700 dark:text-brand-teal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-              <path d="M14.5 17.5L3 6" stroke-linecap="round"/>
-              <path d="M10 12l2.5 2.5" stroke-linecap="round"/>
-              <circle cx="17" cy="18" r="3" />
-              <circle cx="6" cy="6" r="3" />
-              <path d="M8 8.5l7 7" stroke-linecap="round"/>
-            </svg>
-          </div>
-          <div>
-            <h3 class="text-lg font-black text-slate-800 dark:text-slate-100 uppercase tracking-wide">Taş Kağıt Makas</h3>
-            <p class="text-xs text-slate-500 mt-2 leading-relaxed dark:text-slate-400">Yapay Zeka rakibine karşı hamleni yap, üst üste kazanarak galibiyet serisini yakala!</p>
-          </div>
-          <button onclick="loadGameInConsole('rps')" class="w-full py-3 rounded-xl font-bold tracking-wider cursor-pointer arcade-btn-teal">
-            DÜELLOYA BAŞLA
-          </button>
-        </div>
-
-        <!-- Card 2: Zar Atma -->
-        <div class="arcade-card p-6 flex flex-col justify-between items-center text-center gap-4">
-          <div class="w-20 h-20 rounded-2xl bg-amber-50 border border-amber-200 flex items-center justify-center dark:bg-brand-gold/5 dark:border-brand-gold/20">
-            <svg class="w-12 h-12 text-amber-700 dark:text-brand-gold" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-              <rect x="3" y="3" width="18" height="18" rx="4" />
-              <circle cx="8.5" cy="8.5" r="1.5" fill="currentColor"/>
-              <circle cx="15.5" cy="15.5" r="1.5" fill="currentColor"/>
-              <circle cx="12" cy="12" r="1.5" fill="currentColor"/>
-            </svg>
-          </div>
-          <div>
-            <h3 class="text-lg font-black text-slate-800 dark:text-slate-100 uppercase tracking-wide">Zar Atma</h3>
-            <p class="text-xs text-slate-500 mt-2 leading-relaxed dark:text-slate-400">1 ile 4 adet arasında zarı 3D fizik simülasyonuyla fırlat, geçmiş istatistikleri incele!</p>
-          </div>
-          <button onclick="loadGameInConsole('dice')" class="w-full py-3 rounded-xl font-bold tracking-wider cursor-pointer arcade-btn-gold">
-            ZARLARI fırlat
-          </button>
-        </div>
-
-        <!-- Card 3: Çekiliş Yap -->
-        <div class="arcade-card p-6 flex flex-col justify-between items-center text-center gap-4">
-          <div class="w-20 h-20 rounded-2xl bg-teal-50 border border-teal-200 flex items-center justify-center dark:bg-brand-teal/5 dark:border-brand-teal/20">
-            <svg class="w-12 h-12 text-teal-700 dark:text-brand-teal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-              <path d="M12 2L2 7l10 5 10-5-10-5z" stroke-linejoin="round"/>
-              <path d="M2 17l10 5 10-5" stroke-linejoin="round"/>
-              <path d="M2 12l10 5 10-5" stroke-linejoin="round"/>
-            </svg>
-          </div>
-          <div>
-            <h3 class="text-lg font-black text-slate-800 dark:text-slate-100 uppercase tracking-wide">Çekiliş Yap</h3>
-            <p class="text-xs text-slate-500 mt-2 leading-relaxed dark:text-slate-400">Katılımcı listesini belirle, asil ve yedek kazanan sayılarını girip kazananı karıştır!</p>
-          </div>
-          <button onclick="loadGameInConsole('raffle')" class="w-full py-3 rounded-xl font-bold tracking-wider cursor-pointer arcade-btn-teal">
-            ÇEKİLİŞ EKRANINI AÇ
-          </button>
-        </div>
-
-      </section>
-
-      <!-- 2. SANAL OYUN KONSOLU (VIRTUAL ARCADE CABINET) -->
-      <section id="console-section" class="w-full max-w-4xl mx-auto pt-4">
-        <div class="console-cabinet p-6 flex flex-col gap-6 md:p-8">
-          
-          <!-- Cabinet Header (Brand Led Strip) -->
-          <div class="flex justify-between items-center border-b-2 border-slate-350 pb-4 dark:border-slate-800">
-            <div class="flex items-center gap-2">
-              <div class="w-3 h-3 rounded-full bg-red-500 animate-ping"></div>
-              <span class="text-xs font-black tracking-widest text-slate-600 uppercase dark:text-slate-400">SYSTEM: ONLINE</span>
-            </div>
-            <!-- Dynamic Led Screen Banner -->
-            <div class="px-4 py-1.5 bg-slate-900 border border-slate-700 rounded-lg text-xs font-bold text-amber-500 tracking-wider mono-font dark:border-slate-800">
-              EKRAN MODU: <span id="console-mode-label" class="uppercase">TAŞ KAĞIT MAKAS</span>
-            </div>
-          </div>
-
-          <!-- Console Layout: Grid containing Controls on sides and Screen in center -->
-          <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
-            
-            <!-- Left Side Controls (D-pad & Analog Knob) -->
-            <div class="lg:col-span-2 hidden lg:flex flex-col gap-8 items-center">
-              <!-- Physical D-pad -->
-              <div class="dpad">
-                <div class="dpad-btn dpad-center"></div>
-                <button onclick="navigateConsole('prev')" class="dpad-btn dpad-up cursor-pointer hover:bg-amber-600" title="Önceki Oyun"></button>
-                <button onclick="navigateConsole('next')" class="dpad-btn dpad-down cursor-pointer hover:bg-amber-600" title="Sonraki Oyun"></button>
-                <div class="dpad-btn dpad-left"></div>
-                <div class="dpad-btn dpad-right"></div>
-              </div>
-              <div class="text-center">
-                <span class="text-[10px] font-black text-slate-500 uppercase tracking-widest block">Oyun Seç</span>
-                <span class="text-[9px] text-slate-400 font-bold tracking-wide">YUKARI / AŞAĞI</span>
-              </div>
-            </div>
-
-            <!-- Central Glass Screen (Virtual monitor) -->
-            <div class="lg:col-span-8 w-full console-screen rounded-2xl overflow-hidden shadow-inner scanlines p-4 min-h-[460px] flex flex-col justify-between">
-              
-              <!-- Inside Screen Navigation (For mobile & direct tab clicks) -->
-              <div class="flex border-b border-slate-200 pb-3 mb-4 justify-around gap-2 dark:border-slate-800">
-                <button id="console-tab-rps" onclick="switchConsoleTab('rps')" class="tab-btn px-4 py-2 text-xs font-black text-slate-700 dark:text-slate-400 hover:text-amber-700 dark:hover:text-brand-gold uppercase tracking-wider cursor-pointer">
-                  Taş Kağıt Makas
-                </button>
-                <button id="console-tab-dice" onclick="switchConsoleTab('dice')" class="tab-btn px-4 py-2 text-xs font-black text-slate-700 dark:text-slate-400 hover:text-amber-700 dark:hover:text-brand-gold uppercase tracking-wider cursor-pointer">
-                  Zar Atma
-                </button>
-                <button id="console-tab-raffle" onclick="switchConsoleTab('raffle')" class="tab-btn px-4 py-2 text-xs font-black text-slate-700 dark:text-slate-400 hover:text-amber-700 dark:hover:text-brand-gold uppercase tracking-wider cursor-pointer">
-                  Çekiliş Yap
-                </button>
-              </div>
-
-              <!-- SCREEN CONTENT 1: TAŞ KAĞIT MAKAS -->
-              <div id="console-content-rps" class="console-content flex-grow flex flex-col justify-between gap-6">
-                
-                <!-- Scoreboard -->
-                <div class="grid grid-cols-3 gap-3 text-center">
-                  <div class="bg-slate-100 p-2.5 rounded-xl border border-slate-200 dark:bg-slate-900/60 dark:border-slate-800/80">
-                    <span class="text-[10px] text-slate-600 uppercase font-bold dark:text-slate-400">SEN</span>
-                    <div id="rps-score-player" class="text-2xl font-black text-teal-700 mt-0.5 mono-font dark:text-brand-teal">0</div>
-                  </div>
-                  <div class="bg-slate-100 p-2.5 rounded-xl border border-slate-200 dark:bg-slate-900/60 dark:border-slate-800/80">
-                    <span class="text-[10px] text-slate-600 uppercase font-bold dark:text-slate-400">BERABERE</span>
-                    <div id="rps-score-draws" class="text-2xl font-black text-slate-500 mt-0.5 mono-font">0</div>
-                  </div>
-                  <div class="bg-slate-100 p-2.5 rounded-xl border border-slate-200 dark:bg-slate-900/60 dark:border-slate-800/80">
-                    <span class="text-[10px] text-slate-600 uppercase font-bold dark:text-slate-400">RAKİP (AI)</span>
-                    <div id="rps-score-computer" class="text-2xl font-black text-red-700 mt-0.5 mono-font dark:text-danger-crimson">0</div>
-                  </div>
-                </div>
-
-                <!-- Arena stage inside screen -->
-                <div class="flex-grow flex flex-col items-center justify-center p-6 bg-slate-100 rounded-xl border border-slate-200 min-h-[220px] dark:bg-slate-900/40 dark:border-slate-800/50">
-                  
-                  <!-- Screen: Idle -->
-                  <div id="rps-stage-idle" class="text-center">
-                    <div class="w-12 h-12 mx-auto mb-2 bg-white border border-slate-200 rounded-full flex items-center justify-center shadow-sm dark:bg-slate-900 dark:border-slate-800">
-                      <i data-lucide="gamepad-2" class="w-6 h-6 text-teal-700 dark:text-brand-teal"></i>
-                    </div>
-                    <h4 class="text-sm font-bold text-slate-800 dark:text-slate-300">Konsol Hazır</h4>
-                    <p class="text-[10px] text-slate-500 mt-0.5 dark:text-slate-400">Aşağıdaki konsol tuşlarına basarak hamleni fırlat.</p>
-                  </div>
-
-                  <!-- Screen: Battle -->
-                  <div id="rps-stage-battle" class="hidden w-full flex flex-col items-center gap-4">
-                    <div class="w-full flex items-center justify-around gap-2">
-                      <!-- Player side -->
-                      <div class="flex flex-col items-center gap-1.5 w-1/3">
-                        <span class="text-[9px] text-slate-500 font-bold uppercase tracking-wider dark:text-slate-400">OYUNCU</span>
-                        <div id="rps-battle-player" class="w-16 h-16 rounded-xl flex items-center justify-center bg-white border-2 border-teal-700 shadow-md dark:border-brand-teal dark:bg-slate-905"></div>
-                        <span id="rps-label-player" class="text-xs font-bold text-slate-700 dark:text-slate-350">-</span>
-                      </div>
-
-                      <!-- Countdown vs banner -->
-                      <div class="flex flex-col items-center">
-                        <div id="rps-countdown-text" class="text-xl font-extrabold text-amber-700 animate-bounce mono-font dark:text-brand-gold">3</div>
-                        <div class="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest">VS</div>
-                      </div>
-
-                      <!-- Computer side -->
-                      <div class="flex flex-col items-center gap-1.5 w-1/3">
-                        <span class="text-[9px] text-slate-500 font-bold uppercase tracking-wider dark:text-slate-400">RAKİP (AI)</span>
-                        <div id="rps-battle-computer" class="w-16 h-16 rounded-xl flex items-center justify-center bg-white border-2 border-red-700 shadow-md computer-hand-mirror dark:border-danger-crimson dark:bg-slate-905"></div>
-                        <span id="rps-label-computer" class="text-xs font-bold text-slate-700 dark:text-slate-350">-</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  <!-- Battle Result Banner -->
-                  <div id="rps-result-panel" class="hidden mt-4 text-center">
-                    <div id="rps-result-text" class="text-lg font-black tracking-wide text-emerald-700 dark:text-success-emerald">KAZANDIN!</div>
-                    <div id="rps-result-subtext" class="text-[10px] text-slate-600 mt-0.5 dark:text-slate-400">Makas kağıdı keser.</div>
-                  </div>
-
-                </div>
-
-                <!-- Streak Banner inside console -->
-                <div id="rps-streak-banner" class="hidden justify-center items-center gap-1.5 py-1.5 px-3 bg-amber-50 border border-amber-200 rounded-lg text-amber-800 text-xs font-bold dark:bg-brand-gold/10 dark:border-brand-gold/20 dark:text-brand-gold">
-                  <i data-lucide="flame" class="w-3.5 h-3.5 fill-amber-700/10 dark:fill-brand-gold/20"></i>
-                  <span>Galibiyet Serisi: <span id="rps-streak-count" class="mono-font">0</span>!</span>
-                </div>
-
-                <!-- Input Console Buttons (Fist, Paper, Scissors vector cards) -->
-                <div class="grid grid-cols-3 gap-3">
-                  <button onclick="playRps('rock')" class="py-2.5 rounded-lg border border-slate-200 bg-white hover:bg-slate-100 font-bold text-xs tracking-wider cursor-pointer flex justify-center items-center gap-1.5 shadow-sm text-slate-750 dark:bg-slate-900/60 dark:border-slate-800 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:border-brand-gold">
-                    <svg class="w-4 h-4 text-teal-700 dark:text-brand-teal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                      <path d="M18 10V8a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v2" /><path d="M14 10V7a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v3" /><path d="M10 10V8a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v5" /><path d="M18 10a2 2 0 0 1 2 2v2a8 8 0 0 1-8 8h-2a8 8 0 0 1-8-8v-3" /><path d="M6 13V9a2 2 0 0 1 2-2v0a2 2 0 0 1 2 2v4" />
-                    </svg>
-                    <span>TAŞ</span>
-                  </button>
-                  <button onclick="playRps('paper')" class="py-2.5 rounded-lg border border-slate-200 bg-white hover:bg-slate-100 font-bold text-xs tracking-wider cursor-pointer flex justify-center items-center gap-1.5 shadow-sm text-slate-750 dark:bg-slate-900/60 dark:border-slate-800 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:border-brand-gold">
-                    <svg class="w-4 h-4 text-teal-700 dark:text-brand-teal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                      <path d="M18 8a2 2 0 1 1 4 0v6a10 10 0 0 1-10 10h-2A10 10 0 0 1 0 14V8a2 2 0 1 1 4 0v4" /><path d="M6 8a2 2 0 1 1 4 0v4" /><path d="M10 6a2 2 0 1 1 4 0v6" /><path d="M14 5a2 2 0 1 1 4 0v7" />
-                    </svg>
-                    <span>KAĞIT</span>
-                  </button>
-                  <button onclick="playRps('scissors')" class="py-2.5 rounded-lg border border-slate-200 bg-white hover:bg-slate-100 font-bold text-xs tracking-wider cursor-pointer flex justify-center items-center gap-1.5 shadow-sm text-slate-750 dark:bg-slate-900/60 dark:border-slate-800 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:border-brand-gold">
-                    <svg class="w-4 h-4 text-teal-700 dark:text-brand-teal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                      <path d="M10 10V4a2 2 0 1 1 4 0v4" /><path d="M14 10V2a2 2 0 1 1 4 0v8" /><path d="M18 12a2 2 0 1 1 4 0v2a8 8 0 0 1-8 8h-2a8 8 0 0 1-8-8v-3" /><path d="M6 14v-2a2 2 0 1 1 4 0v2" /><path d="M10 14H6" />
-                    </svg>
-                    <span>MAKAS</span>
-                  </button>
-                </div>
-
-                <div class="flex justify-center">
-                  <button onclick="resetRpsScores()" class="text-[10px] text-slate-400 font-bold uppercase hover:text-red-600 transition-colors">Tüm Skor Tablosunu Sıfırla</button>
-                </div>
-
-              </div>
-
-              <!-- SCREEN CONTENT 2: ZAR ATMA -->
-              <div id="console-content-dice" class="console-content hidden flex-grow flex flex-col justify-between gap-4">
-                
-                <!-- Option select header inside screen -->
-                <div class="flex items-center justify-between border-b border-slate-200 pb-2 dark:border-slate-850">
-                  <span class="text-xs font-bold text-slate-700 dark:text-slate-300">Zar Seçimi</span>
-                  <select id="dice-count-select-console" class="bg-slate-100 border border-slate-200 rounded px-2 py-0.5 text-xs font-bold text-slate-700 focus:outline-none dark:bg-slate-900 dark:border-slate-800 dark:text-slate-300">
-                    <option value="1">1 Zar</option>
-                    <option value="2" selected>2 Zar</option>
-                    <option value="3">3 Zar</option>
-                    <option value="4">4 Zar</option>
-                  </select>
-                </div>
-
-                <!-- Dice felt tray container -->
-                <div class="flex-grow flex flex-col items-center justify-center p-6 rounded-xl dice-tray min-h-[180px]">
-                  <div id="dice-tabletop-console" class="flex flex-wrap items-center justify-center gap-6 w-full"></div>
-                  <!-- Total score value display -->
-                  <div id="dice-total-panel-console" class="hidden mt-4 text-center">
-                    <div class="text-[10px] text-white/70 font-bold uppercase tracking-wider">TOPLAM SONUÇ</div>
-                    <div id="dice-total-value-console" class="text-3xl font-extrabold text-brand-gold mt-0.5 mono-font">12</div>
-                  </div>
-                </div>
-
-                <!-- Dice Stats / History area -->
-                <div class="grid grid-cols-2 gap-3 text-xs">
-                  <!-- Stats -->
-                  <div class="bg-slate-100 p-2.5 rounded-lg border border-slate-200 dark:bg-slate-900/60 dark:border-slate-800/80">
-                    <div class="flex justify-between items-center text-slate-500 font-bold text-[9px] uppercase tracking-wider mb-1.5 dark:text-slate-400">
-                      <span>VERİLER</span>
-                      <i data-lucide="bar-chart-2" class="w-3 h-3 text-teal-700 dark:text-brand-teal"></i>
-                    </div>
-                    <div class="flex justify-between">
-                      <span class="text-[10px] text-slate-500">Toplam Atış:</span>
-                      <strong id="dice-stat-count-console" class="text-slate-850 dark:text-slate-200 font-mono">0</strong>
-                    </div>
-                    <div class="flex justify-between mt-0.5">
-                      <span class="text-[10px] text-slate-500">Zar Ortalaması:</span>
-                      <strong id="dice-stat-average-console" class="text-slate-850 dark:text-slate-200 font-mono">0.0</strong>
-                    </div>
-                  </div>
-                  <!-- History -->
-                  <div class="bg-slate-100 p-2.5 rounded-lg border border-slate-200 dark:bg-slate-900/60 dark:border-slate-800/80 flex flex-col max-h-[75px] overflow-y-auto">
-                    <div class="flex justify-between items-center text-slate-500 font-bold text-[9px] uppercase tracking-wider mb-1.5 dark:text-slate-400">
-                      <span>GEÇMİŞ</span>
-                      <button onclick="clearDiceHistory()" class="text-[9px] text-red-650 hover:underline dark:text-red-400">Temizle</button>
-                    </div>
-                    <div id="dice-history-list-console" class="flex flex-col gap-1 text-[10px]">
-                      <span class="text-slate-500 text-center">Atış yapılmadı.</span>
-                    </div>
-                  </div>
-                </div>
-
-                <!-- Roller action button -->
-                <button id="roll-dice-btn-console" onclick="rollDice()" class="w-full py-3 bg-amber-700 text-white font-bold rounded-xl shadow-md hover:bg-amber-800 transition-all duration-150 cursor-pointer text-sm tracking-wider uppercase dark:bg-brand-gold dark:text-slate-950 dark:hover:bg-brand-gold-hover">
-                  ZARLARI fırlat!
-                </button>
-
-              </div>
-
-              <!-- SCREEN CONTENT 3: ÇEKİLİŞ YAP -->
-              <div id="console-content-raffle" class="console-content hidden flex-grow flex flex-col justify-between gap-4">
-                
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 flex-grow">
-                  
-                  <!-- Left Grid Column: Participants -->
-                  <div class="flex flex-col gap-2.5">
-                    <div class="flex items-center justify-between border-b border-slate-200 pb-1.5 dark:border-slate-850">
-                      <span class="text-xs font-bold text-slate-700 dark:text-slate-350">Aday Listesi</span>
-                      <span class="bg-teal-50 text-teal-800 border border-teal-100 px-1.5 py-0.5 rounded text-[10px] font-bold dark:bg-brand-teal/10 dark:border-brand-teal/20 dark:text-brand-teal" id="participant-count-badge-console">0 Aday</span>
-                    </div>
-                    <!-- Quick Add input -->
-                    <div class="flex gap-1.5">
-                      <input type="text" id="raffle-name-input-console" placeholder="İsim..." class="flex-grow bg-white border border-slate-300 rounded px-2 py-1 text-xs focus:outline-none focus:border-teal-700 text-slate-850 dark:bg-slate-905 dark:border-slate-800 dark:text-slate-200 dark:focus:border-brand-teal" onkeydown="handleNameInputKey(event)">
-                      <button onclick="addParticipant()" class="px-3 py-1 bg-teal-700 text-white font-bold text-xs rounded hover:bg-teal-800 transition-colors cursor-pointer dark:bg-brand-teal dark:hover:bg-brand-teal-hover dark:text-slate-950">Ekle</button>
-                    </div>
-                    <!-- Bulk text input container -->
-                    <textarea id="raffle-bulk-input-console" rows="2" placeholder="Virgülle veya satırla ayırarak toplu ekle..." class="w-full bg-white border border-slate-300 rounded p-1.5 text-[10px] focus:outline-none focus:border-teal-700 text-slate-850 resize-none dark:bg-slate-905 dark:border-slate-800 dark:text-slate-200 dark:focus:border-brand-teal"></textarea>
-                    <button onclick="addBulkParticipants()" class="py-1 bg-slate-100 hover:bg-slate-200 text-[10px] font-semibold rounded transition-colors cursor-pointer text-slate-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700">Toplu Ekle</button>
-                    
-                    <!-- Candidates pill list -->
-                    <div class="flex flex-col gap-1">
-                      <div class="flex justify-between items-center text-[9px] text-slate-500 font-bold">
-                        <span>LİSTE:</span>
-                        <button onclick="clearParticipants()" class="text-red-750 hover:underline dark:text-red-400">Tümünü Sil</button>
-                      </div>
-                      <div id="participants-list-console" class="flex flex-wrap gap-1 max-h-[85px] overflow-y-auto p-1.5 bg-slate-100 rounded-md border border-slate-200 dark:bg-slate-950/40 dark:border-slate-900">
-                        <span class="text-[10px] text-slate-500 w-full text-center py-2">Liste boş.</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  <!-- Right Grid Column: Draw Engine -->
-                  <div class="flex flex-col justify-between gap-3">
-                    
-                    <!-- Draw Setup parameters -->
-                    <div class="flex flex-col gap-2">
-                      <span class="text-xs font-bold text-slate-700 dark:text-slate-350">Çekiliş Ayarı</span>
-                      <div class="grid grid-cols-2 gap-2 text-[10px]">
-                        <div class="flex flex-col gap-1">
-                          <label class="font-bold text-slate-500">Asil Sayısı</label>
-                          <input type="number" id="winner-count-console" value="1" min="1" max="100" class="bg-white border border-slate-300 rounded px-2 py-1 text-slate-850 font-bold dark:bg-slate-900 dark:border-slate-800 dark:text-slate-200 focus:outline-none focus:border-teal-700">
-                        </div>
-                        <div class="flex flex-col gap-1">
-                          <label class="font-bold text-slate-500">Yedek Sayısı</label>
-                          <input type="number" id="backup-count-console" value="0" min="0" max="100" class="bg-white border border-slate-300 rounded px-2 py-1 text-slate-850 font-bold dark:bg-slate-900 dark:border-slate-800 dark:text-slate-200 focus:outline-none focus:border-teal-700">
-                        </div>
-                      </div>
-                    </div>
-
-                    <!-- Screen Monitor inside Raffle screen -->
-                    <div class="flex-grow flex items-center justify-center p-3 bg-slate-100 rounded-lg border border-slate-200 min-h-[110px] dark:bg-slate-950/40 dark:border-slate-900/60">
-                      
-                      <!-- State: Idle -->
-                      <div id="raffle-stage-idle-console" class="text-center">
-                        <i data-lucide="gift" class="w-5 h-5 text-teal-700 mx-auto mb-1.5 dark:text-brand-teal"></i>
-                        <span class="text-[10px] font-bold text-slate-700 block dark:text-slate-350">Çekilişe Hazır</span>
-                      </div>
-
-                      <!-- State: Shuffling -->
-                      <div id="raffle-stage-shuffling-console" class="hidden text-center w-full">
-                        <span class="text-[9px] text-teal-700 font-extrabold uppercase tracking-widest animate-pulse block mb-1 dark:text-brand-teal">Karıştırılıyor...</span>
-                        <div id="raffle-shuffle-box-console" class="text-sm font-bold text-white px-3 py-1.5 bg-slate-800 border border-slate-700 rounded-lg shadow-inner flex items-center justify-center animate-shuffle dark:text-slate-200 dark:bg-slate-900 dark:border-slate-800">
-                          -
-                        </div>
-                      </div>
-
-                      <!-- State: Results -->
-                      <div id="raffle-stage-results-console" class="hidden w-full flex flex-col gap-2">
-                        <span class="text-[9px] font-extrabold text-amber-700 uppercase tracking-widest text-center block dark:text-brand-gold">KAZANANLAR</span>
-                        <div class="flex flex-col gap-1 max-h-[85px] overflow-y-auto px-1" id="raffle-winners-output-console"></div>
-                        <div id="raffle-backups-container-console" class="hidden border-t border-slate-200 pt-1.5 dark:border-slate-800">
-                          <span class="text-[9px] font-bold text-slate-500 uppercase text-center block tracking-wide mb-1">Yedekler</span>
-                          <div class="flex flex-wrap justify-center gap-1 text-[9px]" id="raffle-backups-output-console"></div>
-                        </div>
-                      </div>
-
-                    </div>
-
-                    <!-- Drawer trigger button -->
-                    <button id="draw-btn-console" onclick="drawRaffle()" class="w-full py-2.5 bg-teal-700 text-white font-bold rounded-lg shadow-md hover:bg-teal-800 transition-all duration-150 cursor-pointer text-xs tracking-wider uppercase dark:bg-brand-teal dark:text-slate-950 dark:hover:bg-brand-teal-hover">
-                      ÇEKİLİŞİ BAŞLAT!
-                    </button>
-
-                  </div>
-
-                </div>
-
-              </div>
-
-            </div>
-
-            <!-- Right Side Controls (Arcade Action Buttons A/B) -->
-            <div class="lg:col-span-2 hidden lg:flex flex-col gap-6 items-center">
-              
-              <!-- Red Arcade knob joystick display -->
-              <div class="joystick-base">
-                <div class="joystick-knob"></div>
-              </div>
-              <div class="text-center mb-4">
-                <span class="text-[10px] font-black text-slate-500 uppercase tracking-widest block">Analog Kol</span>
-              </div>
-
-              <!-- Two physical action buttons -->
-              <div class="flex gap-4">
-                <!-- Action Button 1 (Teal) -->
-                <div class="flex flex-col items-center gap-1">
-                  <button onclick="triggerConsoleAction('A')" class="w-10 h-10 rounded-full border-2 border-slate-800 bg-teal-700 hover:bg-teal-600 active:scale-95 shadow-md flex items-center justify-center font-bold text-white text-xs cursor-pointer dark:bg-brand-teal dark:border-brand-gold dark:text-slate-950 dark:hover:bg-teal-400">A</button>
-                  <span class="text-[9px] text-slate-400 font-bold">OYNA</span>
-                </div>
-                <!-- Action Button 2 (Gold) -->
-                <div class="flex flex-col items-center gap-1">
-                  <button onclick="triggerConsoleAction('B')" class="w-10 h-10 rounded-full border-2 border-slate-800 bg-amber-600 hover:bg-amber-500 active:scale-95 shadow-md flex items-center justify-center font-bold text-white text-xs cursor-pointer dark:bg-brand-gold dark:border-brand-teal dark:text-slate-950 dark:hover:bg-yellow-400">B</button>
-                  <span class="text-[9px] text-slate-400 font-bold">ZAR AT</span>
-                </div>
-              </div>
-
-            </div>
-
-          </div>
-
-        </div>
-      </section>
-
-    </main>
-
-    <!-- Footer -->
-    <footer class="border-t border-slate-200 py-6 px-6 bg-slate-100 text-center text-xs text-slate-500 dark:border-slate-850 dark:bg-slate-950">
-      <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
-        <div>
-          <span>&copy; 2026 <strong>BlitzHub Arcade</strong>. Tüm Hakları Saklıdır.</span>
-        </div>
-        <div class="flex items-center gap-4">
-          <span class="flex items-center gap-1">
-            <i data-lucide="shield-check" class="w-3.5 h-3.5 text-teal-700 dark:text-brand-teal"></i> Güvenli &amp; Yerel
-          </span>
-          <span class="flex items-center gap-1">
-            <i data-lucide="code" class="w-3.5 h-3.5 text-amber-700 dark:text-brand-gold"></i> Retro Sanal Atari Konsolu
-          </span>
+        <div class="score-block right">
+          <span class="score-label">Bilgisayar</span>
+          <span class="score-num comp" id="rps-score-computer">0</span>
         </div>
       </div>
-    </footer>
 
-  </div>
+      <!-- Streak -->
+      <div id="rps-streak-banner" class="streak-banner hidden">
+        🔥 <span id="rps-streak-count">0</span> tur üst üste kazandın!
+      </div>
 
-  <!-- Main JS Logic -->
+      <!-- Oyun alanı -->
+      <div class="rps-arena">
+        <!-- Bekleme -->
+        <div id="rps-stage-idle" class="rps-stage">
+          <p class="rps-prompt">Bir hamle seç:</p>
+          <div class="rps-choices">
+            <button class="rps-btn" id="btn-rock" onclick="playRps('rock')" title="Taş">
+              <span class="rps-emoji">✊</span>
+              <span class="rps-name">Taş</span>
+            </button>
+            <button class="rps-btn" id="btn-paper" onclick="playRps('paper')" title="Kağıt">
+              <span class="rps-emoji">✋</span>
+              <span class="rps-name">Kağıt</span>
+            </button>
+            <button class="rps-btn" id="btn-scissors" onclick="playRps('scissors')" title="Makas">
+              <span class="rps-emoji">✌️</span>
+              <span class="rps-name">Makas</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Animasyon -->
+        <div id="rps-stage-battle" class="rps-stage hidden">
+          <div class="battle-area">
+            <div class="battle-side">
+              <div class="battle-hand shake-player" id="rps-battle-player">✊</div>
+              <span class="battle-label" id="rps-label-player">Sen</span>
+            </div>
+            <div class="battle-vs">
+              <span id="rps-countdown-text" class="countdown">3</span>
+            </div>
+            <div class="battle-side">
+              <div class="battle-hand shake-computer" id="rps-battle-computer">✊</div>
+              <span class="battle-label" id="rps-label-computer">Bilgisayar</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sonuç -->
+        <div id="rps-result-panel" class="rps-result hidden">
+          <p id="rps-result-text" class="result-text"></p>
+          <p id="rps-result-subtext" class="result-sub"></p>
+          <button class="btn-secondary" onclick="resetRpsRound()">Tekrar Oyna</button>
+        </div>
+      </div>
+
+      <div class="panel-footer">
+        <button class="btn-ghost btn-small" onclick="resetRpsScores()">Skoru Sıfırla</button>
+      </div>
+    </div>
+
+    <!-- ─────────── ZAR ATMA ─────────── -->
+    <div class="panel hidden" id="panel-dice" role="tabpanel" aria-labelledby="tab-dice">
+      <div class="dice-controls">
+        <label class="control-label" for="dice-count-select-console">Zar sayısı:</label>
+        <div class="select-wrapper">
+          <select id="dice-count-select-console" class="select" onchange="changeDiceCount(this.value)">
+            <option value="1">1 Zar</option>
+            <option value="2">2 Zar</option>
+            <option value="3">3 Zar</option>
+            <option value="4">4 Zar</option>
+            <option value="5">5 Zar</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="dice-tabletop" id="dice-tabletop-console"></div>
+
+      <div id="dice-total-panel-console" class="dice-total hidden">
+        Toplam: <strong id="dice-total-value-console">—</strong>
+      </div>
+
+      <button class="btn-primary btn-wide" id="roll-dice-btn-console" onclick="rollDice()">
+        🎲 Zar At
+      </button>
+
+      <div class="dice-stats">
+        <div class="stat-item">
+          <span class="stat-label">Toplam Atış</span>
+          <span class="stat-val" id="dice-stat-count-console">0</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">Ortalama</span>
+          <span class="stat-val" id="dice-stat-average-console">0.0</span>
+        </div>
+      </div>
+
+      <div class="history-section">
+        <div class="history-header">
+          <span class="history-title">Geçmiş</span>
+          <button class="btn-ghost btn-small" onclick="clearDiceHistory()">Temizle</button>
+        </div>
+        <div class="history-list" id="dice-history-list-console">
+          <span class="empty-msg">Henüz atış yapılmadı.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─────────── ÇEKİLİŞ ─────────── -->
+    <div class="panel hidden" id="panel-raffle" role="tabpanel" aria-labelledby="tab-raffle">
+      <!-- İsim ekleme -->
+      <div class="input-row">
+        <input
+          type="text"
+          id="raffle-name-input-console"
+          class="text-input"
+          placeholder="İsim gir..."
+          onkeydown="handleNameInputKey(event)"
+          maxlength="40"
+        />
+        <button class="btn-primary" onclick="addParticipant()">Ekle</button>
+      </div>
+
+      <!-- Toplu ekleme -->
+      <details class="bulk-details">
+        <summary class="bulk-summary">Toplu ekle (virgül veya satır ile ayır)</summary>
+        <div class="bulk-area">
+          <textarea id="raffle-bulk-input-console" class="textarea" rows="3" placeholder="Ali, Veli, Ayşe&#10;Fatma"></textarea>
+          <button class="btn-secondary btn-small" onclick="addBulkParticipants()">Listeye Ekle</button>
+        </div>
+      </details>
+
+      <!-- Aday listesi -->
+      <div class="participants-header">
+        <span class="participants-title">Adaylar</span>
+        <span class="badge" id="participant-count-badge-console">0 Aday</span>
+        <button class="btn-ghost btn-small ml-auto" onclick="clearParticipants()">Tümünü Sil</button>
+      </div>
+      <div class="participants-list" id="participants-list-console">
+        <span class="empty-msg">Aday listesi boş.</span>
+      </div>
+
+      <!-- Çekiliş ayarları -->
+      <div class="raffle-settings">
+        <div class="setting-group">
+          <label class="control-label" for="winner-count-console">Kazanan Sayısı</label>
+          <input type="number" id="winner-count-console" class="num-input" value="1" min="1" max="100" />
+        </div>
+        <div class="setting-group">
+          <label class="control-label" for="backup-count-console">Yedek Sayısı</label>
+          <input type="number" id="backup-count-console" class="num-input" value="0" min="0" max="100" />
+        </div>
+      </div>
+
+      <!-- Çekiliş yap butonu -->
+      <button class="btn-primary btn-wide" id="draw-btn-console" onclick="drawRaffle()">
+        🎁 Çekilişi Başlat
+      </button>
+
+      <!-- Sonuçlar -->
+      <div id="raffle-stage-idle-console" class="hidden"></div>
+
+      <div id="raffle-stage-shuffling-console" class="shuffle-stage hidden">
+        <div class="shuffle-box" id="raffle-shuffle-box-console">…</div>
+        <p class="shuffle-hint">Karıştırılıyor…</p>
+      </div>
+
+      <div id="raffle-stage-results-console" class="raffle-results hidden">
+        <div class="results-title">🏆 Sonuçlar</div>
+        <div class="winners-list" id="raffle-winners-output-console"></div>
+        <div id="raffle-backups-container-console" class="backups-section hidden">
+          <div class="backups-title">Yedekler</div>
+          <div class="backups-list" id="raffle-backups-output-console"></div>
+        </div>
+        <button class="btn-secondary" onclick="resetRaffle()">Yeni Çekiliş</button>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ═══════════════════════════════════════ FOOTER ═══════════════════════════════════════ -->
+  <footer class="footer">
+    <div class="container">
+      <span>BlitzHub &mdash; <a href="https://github.com/BlitzHan" target="_blank" rel="noopener">GitHub</a></span>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
