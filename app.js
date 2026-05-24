@@ -39,13 +39,11 @@ function setTheme(theme) {
   const moonIcon = document.getElementById('moon-icon');
   
   if (theme === 'dark') {
-    document.documentElement.classList.remove('light');
     document.documentElement.classList.add('dark');
     sunIcon.classList.remove('hidden');
     moonIcon.classList.add('hidden');
   } else {
     document.documentElement.classList.remove('dark');
-    document.documentElement.classList.add('light');
     moonIcon.classList.remove('hidden');
     sunIcon.classList.add('hidden');
   }
@@ -60,8 +58,8 @@ function switchTab(tabId) {
   // Tüm butonlardan aktifliği kaldır
   const buttons = document.querySelectorAll('.tab-btn');
   buttons.forEach(btn => {
-    btn.classList.remove('active', 'text-brand-gold', 'bg-slate-800/30', 'light:bg-slate-200', 'border-brand-gold');
-    btn.classList.add('text-slate-400');
+    btn.classList.remove('active', 'text-brand-gold', 'bg-slate-100', 'dark:bg-slate-800/30', 'border-brand-gold');
+    btn.classList.add('text-slate-600', 'dark:text-slate-400');
   });
 
   // Seçilen sekmeyi göster
@@ -71,20 +69,51 @@ function switchTab(tabId) {
   // Seçilen butonu aktifleştir
   const activeBtn = document.getElementById(`tab-btn-${tabId}`);
   if (activeBtn) {
-    activeBtn.classList.add('active', 'text-brand-gold', 'bg-slate-800/30', 'light:bg-slate-200', 'border-brand-gold');
-    activeBtn.classList.remove('text-slate-400');
+    activeBtn.classList.add('active', 'text-brand-gold', 'bg-slate-100', 'dark:bg-slate-800/30', 'border-brand-gold');
+    activeBtn.classList.remove('text-slate-600', 'dark:text-slate-400');
   }
   
-  // Lucide ikonlarını yeniden oluştur (dinamik eklemelerde ikonların çizilmesi için)
+  // Lucide ikonlarını yeniden oluştur
   lucide.createIcons();
 }
 
 
 // ==========================================
-// 2. TAŞ KAĞIT MAKAS OYUN MOTORU
+// 2. TAŞ KAĞIT MAKAS OYUN MOTORU (SALLAMA & SÜRE EKLENDİ)
 // ==========================================
 
 let rpsScores = { player: 0, computer: 0, draws: 0, streak: 0 };
+let isRpsPlaying = false; // Spam tıklamayı önleme bayrağı
+
+// SVG Vektör Tanımlamaları (✊, ✋, ✌️ ikonları)
+const rpsSvgs = {
+  rock: `<svg class="w-16 h-16 text-brand-teal drop-shadow-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M18 10V8a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v2" />
+          <path d="M14 10V7a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v3" />
+          <path d="M10 10V8a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v5" />
+          <path d="M18 10a2 2 0 0 1 2 2v2a8 8 0 0 1-8 8h-2a8 8 0 0 1-8-8v-3" />
+          <path d="M6 13V9a2 2 0 0 1 2-2v0a2 2 0 0 1 2 2v4" />
+        </svg>`,
+  paper: `<svg class="w-16 h-16 text-brand-teal drop-shadow-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+           <path d="M18 8a2 2 0 1 1 4 0v6a10 10 0 0 1-10 10h-2A10 10 0 0 1 0 14V8a2 2 0 1 1 4 0v4" />
+           <path d="M6 8a2 2 0 1 1 4 0v4" />
+           <path d="M10 6a2 2 0 1 1 4 0v6" />
+           <path d="M14 5a2 2 0 1 1 4 0v7" />
+         </svg>`,
+  scissors: `<svg class="w-16 h-16 text-brand-teal drop-shadow-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M10 10V4a2 2 0 1 1 4 0v4" />
+              <path d="M14 10V2a2 2 0 1 1 4 0v8" />
+              <path d="M18 12a2 2 0 1 1 4 0v2a8 8 0 0 1-8 8h-2a8 8 0 0 1-8-8v-3" />
+              <path d="M6 14v-2a2 2 0 1 1 4 0v2" />
+              <path d="M10 14H6" />
+            </svg>`
+};
+
+const rpsNames = {
+  rock: 'Taş',
+  paper: 'Kağıt',
+  scissors: 'Makas'
+};
 
 function loadRpsScores() {
   const saved = localStorage.getItem('blitzhub-rps-scores');
@@ -117,6 +146,7 @@ function updateRpsUI() {
 }
 
 function resetRpsScores() {
+  if (isRpsPlaying) return;
   rpsScores = { player: 0, computer: 0, draws: 0, streak: 0 };
   saveRpsScores();
   updateRpsUI();
@@ -127,77 +157,114 @@ function resetRpsScores() {
   document.getElementById('rps-result-panel').classList.add('hidden');
 }
 
-const rpsChoices = {
-  rock: { emoji: '✊', name: 'Taş', beats: 'scissors' },
-  paper: { emoji: '✋', name: 'Kağıt', beats: 'rock' },
-  scissors: { emoji: '✌️', name: 'Makas', beats: 'paper' }
-};
-
 function playRps(playerChoice) {
-  const choices = ['rock', 'paper', 'scissors'];
-  const computerChoice = choices[Math.floor(Math.random() * choices.length)];
+  if (isRpsPlaying) return; // Oyun oynanıyorsa yeni girişi engelle
+  isRpsPlaying = true;
 
   // Arayüz Değişiklikleri
   document.getElementById('rps-stage-idle').classList.add('hidden');
   document.getElementById('rps-stage-battle').classList.remove('hidden');
-  document.getElementById('rps-result-panel').classList.remove('hidden');
+  document.getElementById('rps-result-panel').classList.add('hidden'); // Sonucu sakla
 
-  // Seçimleri Yazdır
-  const playerEmojiDiv = document.getElementById('rps-battle-player');
-  const computerEmojiDiv = document.getElementById('rps-battle-computer');
+  const playerHandDiv = document.getElementById('rps-battle-player');
+  const computerHandDiv = document.getElementById('rps-battle-computer');
   const playerLabel = document.getElementById('rps-label-player');
   const computerLabel = document.getElementById('rps-label-computer');
+  const countdownText = document.getElementById('rps-countdown-text');
 
-  playerEmojiDiv.textContent = rpsChoices[playerChoice].emoji;
-  computerEmojiDiv.textContent = rpsChoices[computerChoice].emoji;
-  playerLabel.textContent = rpsChoices[playerChoice].name;
-  computerLabel.textContent = rpsChoices[computerChoice].name;
+  // Her ikisini de sallanan Taş yap (RPS ritmi)
+  playerHandDiv.innerHTML = rpsSvgs.rock;
+  computerHandDiv.innerHTML = rpsSvgs.rock;
+  playerLabel.textContent = 'Sallanıyor...';
+  computerLabel.textContent = 'Sallanıyor...';
 
-  const resultText = document.getElementById('rps-result-text');
-  const resultSubtext = document.getElementById('rps-result-subtext');
+  // Sallama Sınıflarını Ekle
+  playerHandDiv.classList.add('animate-shake-player');
+  computerHandDiv.classList.add('animate-shake-computer');
 
-  // Karşılaştır
-  if (playerChoice === computerChoice) {
-    rpsScores.draws++;
-    rpsScores.streak = 0; // Beraberlik seriyi sıfırlar
-    resultText.textContent = 'BERABERE!';
-    resultText.className = 'text-2xl font-bold text-slate-400 dark:text-slate-400 light:text-slate-600 tracking-wide';
-    resultSubtext.textContent = 'İki taraf da aynı hamleyi yaptı.';
-  } else if (rpsChoices[playerChoice].beats === computerChoice) {
-    rpsScores.player++;
-    rpsScores.streak++;
-    resultText.textContent = 'KAZANDIN!';
-    resultText.className = 'text-2xl font-bold text-success-emerald tracking-wide';
-    resultSubtext.textContent = `${rpsChoices[playerChoice].name} ${rpsChoices[computerChoice].name.toLowerCase()} hamlesini alt eder.`;
-    
-    // Küçük konfeti patlat
-    confetti({
-      particleCount: 40,
-      spread: 60,
-      origin: { y: 0.7 }
-    });
-
-    // Seri durumunda büyük konfeti
-    if (rpsScores.streak >= 3) {
-      setTimeout(() => {
-        confetti({
-          particleCount: 100,
-          spread: 80,
-          origin: { y: 0.6 },
-          colors: ['#facc15', '#06b6d4', '#10b981']
-        });
-      }, 250);
+  // Geri sayım sayacını başlat
+  countdownText.classList.remove('hidden');
+  let countdownVal = 3;
+  countdownText.textContent = countdownVal;
+  
+  const countdownInterval = setInterval(() => {
+    countdownVal--;
+    if (countdownVal > 0) {
+      countdownText.textContent = countdownVal;
+    } else {
+      countdownText.textContent = 'AÇ!';
+      clearInterval(countdownInterval);
     }
-  } else {
-    rpsScores.computer++;
-    rpsScores.streak = 0; // Mağlubiyet seriyi sıfırlar
-    resultText.textContent = 'KAYBETTİN!';
-    resultText.className = 'text-2xl font-bold text-danger-crimson tracking-wide';
-    resultSubtext.textContent = `${rpsChoices[computerChoice].name} ${rpsChoices[playerChoice].name.toLowerCase()} hamlesini alt eder.`;
-  }
+  }, 400);
 
-  saveRpsScores();
-  updateRpsUI();
+  // 1.5 Saniye Sallanma Süresi
+  setTimeout(() => {
+    // Sallanmayı ve Geri Sayımı Durdur
+    playerHandDiv.classList.remove('animate-shake-player');
+    computerHandDiv.classList.remove('animate-shake-computer');
+    countdownText.classList.add('hidden');
+
+    // Bilgisayar hamlesini hesapla
+    const choices = ['rock', 'paper', 'scissors'];
+    const computerChoice = choices[Math.floor(Math.random() * choices.length)];
+
+    // Gerçek hamle görsellerini ata
+    playerHandDiv.innerHTML = rpsSvgs[playerChoice];
+    computerHandDiv.innerHTML = rpsSvgs[computerChoice];
+    playerLabel.textContent = rpsNames[playerChoice];
+    computerLabel.textContent = rpsNames[computerChoice];
+
+    // Sonuç panelini göster
+    const resultPanel = document.getElementById('rps-result-panel');
+    const resultText = document.getElementById('rps-result-text');
+    const resultSubtext = document.getElementById('rps-result-subtext');
+    resultPanel.classList.remove('hidden');
+
+    // Skor kıyaslama mantığı
+    const beats = { rock: 'scissors', paper: 'rock', scissors: 'paper' };
+
+    if (playerChoice === computerChoice) {
+      rpsScores.draws++;
+      rpsScores.streak = 0;
+      resultText.textContent = 'BERABERE!';
+      resultText.className = 'text-2xl font-bold text-slate-400 tracking-wide';
+      resultSubtext.textContent = 'İki taraf da aynı hamleyi yaptı.';
+    } else if (beats[playerChoice] === computerChoice) {
+      rpsScores.player++;
+      rpsScores.streak++;
+      resultText.textContent = 'KAZANDIN!';
+      resultText.className = 'text-2xl font-bold text-success-emerald tracking-wide';
+      resultSubtext.textContent = `${rpsNames[playerChoice]} ${rpsNames[computerChoice].toLowerCase()} hamlesini yener.`;
+      
+      // Konfeti patlat
+      confetti({
+        particleCount: 40,
+        spread: 60,
+        origin: { y: 0.7 }
+      });
+
+      if (rpsScores.streak >= 3) {
+        setTimeout(() => {
+          confetti({
+            particleCount: 100,
+            spread: 80,
+            origin: { y: 0.6 },
+            colors: ['#facc15', '#06b6d4', '#10b981']
+          });
+        }, 200);
+      }
+    } else {
+      rpsScores.computer++;
+      rpsScores.streak = 0;
+      resultText.textContent = 'KAYBETTİN!';
+      resultText.className = 'text-2xl font-bold text-danger-crimson tracking-wide';
+      resultSubtext.textContent = `${rpsNames[computerChoice]} ${rpsNames[playerChoice].toLowerCase()} hamlesini yener.`;
+    }
+
+    saveRpsScores();
+    updateRpsUI();
+    isRpsPlaying = false; // Yeni oyun için kilidi aç
+  }, 1500);
 }
 
 
@@ -238,11 +305,11 @@ function updateDiceHistoryUI() {
   }
 
   listContainer.innerHTML = diceHistory.map((item, index) => `
-    <div class="flex items-center justify-between bg-slate-900/60 dark:bg-slate-900/60 light:bg-white p-2 rounded-lg border border-slate-800/80 dark:border-slate-800/80 light:border-slate-200">
+    <div class="flex items-center justify-between bg-slate-100 p-2 rounded-lg border border-slate-200 dark:bg-slate-900/60 dark:border-slate-800/80">
       <span class="text-slate-500 font-semibold">${diceHistory.length - index}. Atış:</span>
       <div class="flex items-center gap-1.5">
         <span class="bg-brand-gold/10 text-brand-gold px-2 py-0.5 rounded font-bold mono-font">${item.dice.join(' + ')}</span>
-        <span class="font-bold text-slate-300 dark:text-slate-200 light:text-slate-800 mono-font">= ${item.total}</span>
+        <span class="font-bold text-slate-700 dark:text-slate-350 mono-font">= ${item.total}</span>
       </div>
     </div>
   `).join('');
@@ -299,12 +366,12 @@ function rollDice() {
   const totalPanel = document.getElementById('dice-total-panel');
   const totalValNode = document.getElementById('dice-total-value');
 
-  // Butonu devre dışı bırak
+  // Butonu kilitle
   rollBtn.disabled = true;
   rollBtn.classList.remove('hover:bg-brand-gold-hover');
   rollBtn.classList.add('opacity-50', 'cursor-not-allowed');
 
-  // Tüm zarları bul ve animasyonu başlat
+  // Animasyonu Başlat
   const diceElements = [];
   for (let i = 0; i < count; i++) {
     const d = document.getElementById(`dice-${i}`);
@@ -314,7 +381,7 @@ function rollDice() {
     }
   }
 
-  // 1 Saniye sonra zar sonuçlarını hesapla ve animasyonu bitir
+  // 1 Saniye sonra durdur ve değer hesapla
   setTimeout(() => {
     let total = 0;
     const rolls = [];
@@ -326,15 +393,12 @@ function rollDice() {
       d.className = `dice show-${value}`;
     });
 
-    // Toplam paneli göster
     totalValNode.textContent = total;
     totalPanel.classList.remove('hidden');
 
-    // İstatistikleri ve Geçmişi güncelle
     diceStats.rollCount++;
     diceStats.totalValue += total;
     
-    // Geçmişe ekle (maksimum 15 adet sakla)
     diceHistory.unshift({ dice: rolls, total: total });
     if (diceHistory.length > 15) diceHistory.pop();
 
@@ -342,15 +406,14 @@ function rollDice() {
     updateDiceStatsUI();
     updateDiceHistoryUI();
 
-    // Butonu tekrar aktifleştir
+    // Buton kilidini kaldır
     rollBtn.disabled = false;
     rollBtn.classList.add('hover:bg-brand-gold-hover');
     rollBtn.classList.remove('opacity-50', 'cursor-not-allowed');
     
-    // Confetti efekti (en yüksek zarlarda kutlama)
     if (total === (count * 6)) {
       confetti({
-        particleCount: 80,
+        particleCount: 85,
         spread: 70,
         origin: { y: 0.6 },
         colors: ['#facc15', '#ffffff']
@@ -407,7 +470,6 @@ function addBulkParticipants() {
   const content = area.value;
   if (!content.trim()) return;
 
-  // Yeni satır veya virgüle göre ayır
   const names = content.split(/[\n,]+/)
     .map(n => n.trim())
     .filter(n => n.length > 0);
@@ -454,9 +516,9 @@ function renderParticipants() {
   }
 
   container.innerHTML = participants.map((name, index) => `
-    <span class="inline-flex items-center gap-1 bg-slate-800 dark:bg-slate-800 light:bg-slate-200 text-slate-300 dark:text-slate-300 light:text-slate-800 px-2.5 py-1 rounded-md text-xs font-medium border border-slate-700/60 dark:border-slate-700/60 light:border-slate-300">
+    <span class="inline-flex items-center gap-1 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-350 px-2.5 py-1 rounded-md text-xs font-semibold border border-slate-200 dark:border-slate-700/60">
       <span>${name}</span>
-      <button onclick="removeParticipant(${index})" class="text-slate-500 hover:text-danger-crimson cursor-pointer font-bold focus:outline-none transition-colors ml-0.5">&times;</button>
+      <button onclick="removeParticipant(${index})" class="text-slate-400 hover:text-danger-crimson cursor-pointer font-bold focus:outline-none transition-colors ml-0.5">&times;</button>
     </span>
   `).join('');
 }
@@ -478,7 +540,7 @@ function drawRaffle() {
   const stageResults = document.getElementById('raffle-stage-results');
   const shuffleBox = document.getElementById('raffle-shuffle-box');
 
-  // Arayüzü kilitle
+  // Arayüz kilidi
   drawBtn.disabled = true;
   drawBtn.classList.remove('hover:bg-brand-teal-hover');
   drawBtn.classList.add('opacity-50', 'cursor-not-allowed');
@@ -493,18 +555,17 @@ function drawRaffle() {
     shuffleBox.textContent = randomName;
   }, 100);
 
-  // 2 Saniye sonra gerçek kazananları açıkla
+  // 2 Saniye sonra kazananları açıkla
   setTimeout(() => {
     clearInterval(shuffleInterval);
 
-    // Fisher-Yates Karıştırma Algoritması
+    // Fisher-Yates Karıştırma
     const listCopy = [...participants];
     for (let i = listCopy.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [listCopy[i], listCopy[j]] = [listCopy[j], listCopy[i]];
     }
 
-    // Kazananları ve yedekleri seç
     const winners = listCopy.slice(0, winCount);
     const backups = listCopy.slice(winCount, winCount + backCount);
 
@@ -514,7 +575,7 @@ function drawRaffle() {
       <div class="flex items-center gap-3 w-full bg-brand-gold/10 border border-brand-gold/30 p-2.5 rounded-xl justify-between animate-pulse">
         <div class="flex items-center gap-2">
           <span class="bg-brand-gold text-slate-950 rounded-lg w-6 h-6 flex items-center justify-center text-xs font-extrabold font-mono">${idx + 1}</span>
-          <span class="font-bold text-slate-200 dark:text-slate-100 light:text-slate-900 text-sm tracking-wide">${w}</span>
+          <span class="font-bold text-slate-800 dark:text-slate-100 text-sm tracking-wide">${w}</span>
         </div>
         <span class="text-[10px] bg-brand-gold/25 text-brand-gold border border-brand-gold/45 px-2 py-0.5 rounded font-extrabold uppercase tracking-wide">KAZANDI</span>
       </div>
@@ -526,9 +587,9 @@ function drawRaffle() {
 
     if (backups.length > 0) {
       backupsOutput.innerHTML = backups.map((b, idx) => `
-        <span class="inline-flex items-center gap-1.5 bg-slate-900/60 dark:bg-slate-900/60 light:bg-white border border-slate-800 dark:border-slate-800 light:border-slate-300 px-2.5 py-1 rounded-lg text-xs font-semibold">
+        <span class="inline-flex items-center gap-1.5 bg-white border border-slate-200 px-2.5 py-1 rounded-lg text-xs font-semibold dark:bg-slate-900/60 dark:border-slate-800">
           <span class="text-slate-500 font-mono font-extrabold text-[10px]">${idx + 1}.Yedek:</span>
-          <span class="font-bold text-slate-350 dark:text-slate-300 light:text-slate-700">${b}</span>
+          <span class="font-bold text-slate-700 dark:text-slate-350">${b}</span>
         </span>
       `).join('');
       backupsContainer.classList.remove('hidden');
@@ -536,16 +597,13 @@ function drawRaffle() {
       backupsContainer.classList.add('hidden');
     }
 
-    // Panelleri aç/kapa
     stageShuffling.classList.add('hidden');
     stageResults.classList.remove('hidden');
 
-    // Butonu tekrar aktifleştir
     drawBtn.disabled = false;
     drawBtn.classList.add('hover:bg-brand-teal-hover');
     drawBtn.classList.remove('opacity-50', 'cursor-not-allowed');
 
-    // Konfeti fırlat
     triggerGiveawayConfetti();
 
   }, 2000);
