@@ -12,80 +12,255 @@
 
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 8px;
+  height: 8px;
 }
 ::-webkit-scrollbar-track {
   background: #f1f5f9;
 }
 .dark ::-webkit-scrollbar-track {
-  background: #0b0c10;
+  background: #090a0f;
 }
 ::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
-  border-radius: 3px;
+  background: #94a3b8;
+  border-radius: 4px;
 }
 .dark ::-webkit-scrollbar-thumb {
   background: #334155;
 }
-::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
+
+/* Retro Dot Grid Background Pattern */
+.bg-dot-pattern {
+  background-color: #f1f5f9;
+  background-image: radial-gradient(#cbd5e1 1.5px, transparent 1.5px);
+  background-size: 24px 24px;
 }
 
-/* Solid Premium Cards instead of simple glassmorphism to improve contrast */
-.solid-card {
-  background-color: #ffffff;
-  border: 1px solid #e2e8f0;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
-  transition: all 0.25s ease;
+.dark .bg-dot-pattern {
+  background-color: #050609;
+  background-image: radial-gradient(#1e293b 1.5px, transparent 1.5px);
+  background-size: 24px 24px;
 }
 
-.dark .solid-card {
-  background-color: #111827;
-  border: 1px solid #1f2937;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -4px rgba(0, 0, 0, 0.3);
+/* Glowing Neon Text */
+.glow-text-gold {
+  text-shadow: 0 0 10px rgba(180, 83, 9, 0.2);
+}
+.dark .glow-text-gold {
+  text-shadow: 0 0 15px rgba(250, 204, 21, 0.6), 0 0 5px rgba(250, 204, 21, 0.3);
 }
 
-/* Premium Card Hover Effects */
-.card-hover-teal:hover {
-  border-color: #0f766e;
-  box-shadow: 0 10px 25px -5px rgba(15, 118, 110, 0.1), 0 8px 10px -6px rgba(15, 118, 110, 0.1);
-  transform: translateY(-2px);
+.glow-text-teal {
+  text-shadow: 0 0 10px rgba(15, 118, 110, 0.2);
 }
-.dark .card-hover-teal:hover {
-  border-color: #06b6d4;
-  box-shadow: 0 10px 30px -5px rgba(6, 182, 212, 0.25), 0 8px 10px -6px rgba(6, 182, 212, 0.25);
-  transform: translateY(-2px);
+.dark .glow-text-teal {
+  text-shadow: 0 0 15px rgba(6, 182, 212, 0.6), 0 0 5px rgba(6, 182, 212, 0.3);
 }
 
-.card-hover-gold:hover {
-  border-color: #b45309;
-  box-shadow: 0 10px 25px -5px rgba(180, 83, 9, 0.1), 0 8px 10px -6px rgba(180, 83, 9, 0.1);
-  transform: translateY(-2px);
+/* 3D Physical Game Cards */
+.arcade-card {
+  background: #ffffff;
+  border: 3px solid #1e293b;
+  border-bottom-width: 8px;
+  border-radius: 20px;
+  transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
 }
-.dark .card-hover-gold:hover {
+
+.dark .arcade-card {
+  background: #111827;
+  border: 3px solid #facc15;
+  border-bottom-width: 8px;
+  box-shadow: 0 10px 25px rgba(250, 204, 21, 0.1);
+}
+
+.arcade-card:hover {
+  transform: translateY(-6px);
+  border-bottom-width: 5px;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+}
+.dark .arcade-card:hover {
+  box-shadow: 0 15px 30px rgba(250, 204, 21, 0.2);
+}
+
+/* Realistic 3D Arcade Buttons */
+.arcade-btn-teal {
+  background-color: #0f766e;
+  border: 2px solid #0f172a;
+  border-bottom-width: 6px;
+  color: white;
+  transition: all 0.1s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.arcade-btn-teal:hover {
+  background-color: #14b8a6;
+}
+.arcade-btn-teal:active {
+  transform: translateY(4px);
+  border-bottom-width: 2px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+}
+
+.dark .arcade-btn-teal {
+  background-color: #06b6d4;
   border-color: #facc15;
-  box-shadow: 0 10px 30px -5px rgba(250, 204, 21, 0.25), 0 8px 10px -6px rgba(250, 204, 21, 0.25);
-  transform: translateY(-2px);
+  color: #090a0f;
+}
+.dark .arcade-btn-teal:hover {
+  background-color: #22d3ee;
 }
 
-/* Dice Tabletop (Carbon Texture vs Velvet Texture) */
+.arcade-btn-gold {
+  background-color: #b45309;
+  border: 2px solid #0f172a;
+  border-bottom-width: 6px;
+  color: white;
+  transition: all 0.1s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.arcade-btn-gold:hover {
+  background-color: #eab308;
+}
+.arcade-btn-gold:active {
+  transform: translateY(4px);
+  border-bottom-width: 2px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+}
+
+.dark .arcade-btn-gold {
+  background-color: #facc15;
+  border-color: #06b6d4;
+  color: #090a0f;
+}
+.dark .arcade-btn-gold:hover {
+  background-color: #fde047;
+}
+
+/* Virtual Console Cabinet Frame */
+.console-cabinet {
+  background: #e2e8f0;
+  border: 6px solid #1e293b;
+  border-bottom-width: 14px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  border-radius: 36px;
+}
+
+.dark .console-cabinet {
+  background: #161b22;
+  border: 6px solid #facc15;
+  border-bottom-width: 14px;
+  box-shadow: 0 25px 50px -12px rgba(250, 204, 21, 0.2);
+}
+
+/* Console Inner Screen Container */
+.console-screen {
+  background: #ffffff;
+  border: 4px solid #0f172a;
+  box-shadow: inset 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+.dark .console-screen {
+  background: #0b0c10;
+  border: 4px solid #1e293b;
+  box-shadow: inset 0 8px 30px rgba(0, 0, 0, 0.8), 0 0 15px rgba(6, 182, 212, 0.1);
+}
+
+/* Glass Screen Scanlines (CRT Grid Overlay) */
+.scanlines {
+  position: relative;
+  overflow: hidden;
+}
+.scanlines::after {
+  content: " ";
+  display: block;
+  position: absolute;
+  top: 0; left: 0; bottom: 0; right: 0;
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.05) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.02), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.02));
+  background-size: 100% 4px, 6px 100%;
+  pointer-events: none;
+  z-index: 10;
+  opacity: 0.7;
+}
+
+/* D-Pad Decoration (CSS Joystick Cross) */
+.dpad {
+  position: relative;
+  width: 80px;
+  height: 80px;
+}
+.dpad-btn {
+  position: absolute;
+  background: #475569;
+  border: 2px solid #0f172a;
+}
+.dark .dpad-btn {
+  background: #1f2937;
+  border-color: #374151;
+}
+.dpad-center {
+  left: 26px; top: 26px; width: 28px; height: 28px;
+  z-index: 2;
+}
+.dpad-up {
+  left: 26px; top: 0; width: 28px; height: 28px;
+  border-radius: 4px 4px 0 0;
+}
+.dpad-down {
+  left: 26px; bottom: 0; width: 28px; height: 28px;
+  border-radius: 0 0 4px 4px;
+}
+.dpad-left {
+  left: 0; top: 26px; width: 28px; height: 28px;
+  border-radius: 4px 0 0 4px;
+}
+.dpad-right {
+  right: 0; top: 26px; width: 28px; height: 28px;
+  border-radius: 0 4px 4px 0;
+}
+
+/* Analog Joystick CSS */
+.joystick-base {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background: #cbd5e1;
+  border: 3px solid #1e293b;
+  box-shadow: inset 0 4px 6px rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.dark .joystick-base {
+  background: #111827;
+  border-color: #374151;
+}
+.joystick-knob {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #ef4444;
+  border: 2px solid #0f172a;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+.joystick-knob:active {
+  transform: translate(6px, 6px);
+}
+
+/* Dice Felt Tray (Casino Green vs Carbon) */
 .dice-tray {
-  background-color: #cbd5e1;
-  background-image: radial-gradient(rgba(0, 0, 0, 0.08) 1.5px, transparent 0), radial-gradient(rgba(0, 0, 0, 0.08) 1.5px, transparent 0);
-  background-size: 14px 14px;
-  background-position: 0 0, 7px 7px;
-  border: 2px solid #94a3b8;
-  box-shadow: inset 0 6px 12px rgba(0, 0, 0, 0.08);
+  background-color: #064e3b; /* Green felt for casino look in light mode */
+  background-image: radial-gradient(rgba(255, 255, 255, 0.15) 1px, transparent 0);
+  background-size: 16px 16px;
+  border: 4px solid #1e293b;
+  box-shadow: inset 0 8px 16px rgba(0, 0, 0, 0.4);
 }
 
 .dark .dice-tray {
-  background-color: #090a0f;
-  background-image: radial-gradient(rgba(250, 204, 21, 0.05) 1.2px, transparent 0), radial-gradient(rgba(250, 204, 21, 0.05) 1.2px, transparent 0);
-  background-size: 16px 16px;
-  background-position: 0 0, 8px 8px;
-  border: 2px dashed rgba(250, 204, 21, 0.15);
-  box-shadow: inset 0 8px 24px rgba(0, 0, 0, 0.6);
+  background-color: #0b0d12; /* Carbon Digital Tray in dark mode */
+  background-image: radial-gradient(rgba(250, 204, 21, 0.05) 1px, transparent 0);
+  border: 4px solid #facc15;
 }
 
 /* 3D Dice Styling */
@@ -118,22 +293,22 @@
   align-items: center;
   justify-items: center;
   background: #ffffff;
-  border: 2px solid #1e293b;
-  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.15), 0 3px 5px rgba(0, 0, 0, 0.1);
+  border: 2px solid #0f172a;
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.15);
 }
 
 .dark .dice-face {
-  background: #1e293b;
+  background: #1f2937;
   border: 2px solid #facc15;
-  box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.5), 0 0 10px rgba(250, 204, 21, 0.15);
+  box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.5);
 }
 
 /* Dice dots */
 .dice-dot {
-  width: 9px;
-  height: 9px;
+  width: 8px;
+  height: 8px;
   border-radius: 50%;
-  background-color: #1e293b;
+  background-color: #0f172a;
 }
 
 .dark .dice-dot {
@@ -196,10 +371,7 @@
 .dice.show-6 { transform: rotateX(90deg) rotateY(0deg); }
 
 
-/* ==========================================
-// TAŞ KAĞIT MAKAS SALLAMA ANIMASYONLARI
-// ========================================== */
-
+/* RPS Shaking Animations */
 @keyframes handShakePlayer {
   0%, 100% { transform: rotate(0deg) translateY(0); }
   25% { transform: rotate(-15deg) translateY(-15px); }
@@ -222,47 +394,14 @@
   transform-origin: bottom center;
 }
 
-.computer-hand-mirror {
-  transform: scaleX(-1);
-}
-
-
 /* Slot Shuffling Animation (Giveaway) */
 @keyframes slotShuffle {
   0% { transform: translateY(0); opacity: 1; }
-  50% { transform: translateY(-12px); opacity: 0; }
-  51% { transform: translateY(12px); opacity: 0; }
+  50% { transform: translateY(-10px); opacity: 0; }
+  51% { transform: translateY(10px); opacity: 0; }
   100% { transform: translateY(0); opacity: 1; }
 }
 
 .animate-shuffle {
   animation: slotShuffle 0.15s ease-in-out infinite;
-}
-
-/* Keyframes for simple scale feedback */
-@keyframes pulseGlow {
-  0%, 100% { box-shadow: 0 0 10px rgba(250, 204, 21, 0.1); }
-  50% { box-shadow: 0 0 20px rgba(250, 204, 21, 0.3); }
-}
-
-.pulse-glow {
-  animation: pulseGlow 2s infinite;
-}
-
-/* Tab active indicator bar */
-.tab-btn {
-  position: relative;
-}
-.tab-btn.active::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 25%;
-  height: 50%;
-  width: 4px;
-  background-color: #b45309; /* Amber 700 for light mode */
-  border-radius: 2px;
-}
-.dark .tab-btn.active::after {
-  background-color: #facc15; /* Gold for dark mode */
 }
