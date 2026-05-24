@@ -1,10 +1,6 @@
 /* ════════════════════════════════════════════
    BlitzHub — styles.css
-   Sıfırdan yazılmış, sade, profesyonel tasarım
    ════════════════════════════════════════════ */
-
-/* ─── Google Font ─── */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
 /* ─── Değişkenler ─── */
 :root {
@@ -656,30 +652,22 @@ a:hover {
   justify-self: center;
 }
 
-/* Grid layouts for each face */
-.face-1 { grid-template: 1fr / 1fr; }
-.face-2 { grid-template: 1fr 1fr / 1fr; }
-.face-3 { grid-template: 1fr 1fr 1fr / 1fr; }
-.face-4 { grid-template: 1fr 1fr / 1fr 1fr; }
-.face-5 { grid-template: 1fr 1fr 1fr / 1fr 1fr; }
-.face-6 { grid-template: 1fr 1fr 1fr / 1fr 1fr; }
+/* Grid + 3D transform — ayrı shorthand çakışması önlendi */
+.dice-face.face-1 { grid-template: 1fr / 1fr;             transform: translateZ(36px); }
+.dice-face.face-2 { grid-template: 1fr 1fr / 1fr;         transform: rotateX(180deg) translateZ(36px); }
+.dice-face.face-3 { grid-template: 1fr 1fr 1fr / 1fr;     transform: rotateY(-90deg) translateZ(36px); }
+.dice-face.face-4 { grid-template: 1fr 1fr / 1fr 1fr;     transform: rotateY(90deg)  translateZ(36px); }
+.dice-face.face-5 { grid-template: 1fr 1fr 1fr / 1fr 1fr; transform: rotateX(90deg)  translateZ(36px); }
+.dice-face.face-6 { grid-template: 1fr 1fr 1fr / 1fr 1fr; transform: rotateX(-90deg) translateZ(36px); }
 
-.face-2 .dice-dot:first-child { align-self: start; }
-.face-2 .dice-dot:last-child  { align-self: end; }
+.dice-face.face-2 .dice-dot:first-child { align-self: start; }
+.dice-face.face-2 .dice-dot:last-child  { align-self: end; }
 
-.face-3 .dice-dot:nth-child(1) { align-self: start; }
-.face-3 .dice-dot:nth-child(2) { align-self: center; justify-self: center; }
-.face-3 .dice-dot:nth-child(3) { align-self: end; }
+.dice-face.face-3 .dice-dot:nth-child(1) { align-self: start; }
+.dice-face.face-3 .dice-dot:nth-child(2) { align-self: center; justify-self: center; }
+.dice-face.face-3 .dice-dot:nth-child(3) { align-self: end; }
 
-.face-5 .dice-dot:nth-child(5) { grid-column: 1 / -1; justify-self: center; }
-
-/* 3D faces */
-.face-1 { transform: translateZ(36px); }
-.face-2 { transform: rotateX(180deg) translateZ(36px); }
-.face-3 { transform: rotateY(-90deg)  translateZ(36px); }
-.face-4 { transform: rotateY(90deg)   translateZ(36px); }
-.face-5 { transform: rotateX(90deg)   translateZ(36px); }
-.face-6 { transform: rotateX(-90deg)  translateZ(36px); }
+.dice-face.face-5 .dice-dot:nth-child(5) { grid-column: 1 / -1; justify-self: center; }
 
 /* Show states */
 .show-1 { transform: rotateX(0deg)   rotateY(0deg); }
