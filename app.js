@@ -498,11 +498,9 @@ function updateCoinHistoryUI() {
     list.innerHTML = '<span class="empty-msg">Henüz fırlatma yapılmadı.</span>';
     return;
   }
-  list.innerHTML = coinHistory.map(item => `
-    <span class="coin-chip ${item === 'TURA' ? 'chip-tails' : ''}" title="${item}">
-      ${item === 'YAZI' ? 'Y' : 'T'}
-    </span>
-  `).join('');
+  list.innerHTML = coinHistory.map(item =>
+    `<span class="coin-chip ${item === 'TURA' ? 'chip-tails' : ''}" title="${item}">${item === 'YAZI' ? 'Y' : 'T'}</span>`
+  ).join('');
 }
 
 function clearCoinHistory() {
@@ -511,222 +509,152 @@ function clearCoinHistory() {
   saveCoinStats();
   updateCoinUI();
   updateCoinHistoryUI();
-  document.getElementById('coin-result-text').textContent = '—';
+  document.getElementById('coin-result-text').textContent = '\u2014';
 }
 
 function flipCoin() {
   if (isCoinFlipping) return;
   isCoinFlipping = true;
 
-  const btn = document.getElementById('flip-coin-btn');
-  const coin = document.getElementById('coin-element');
+  const btn        = document.getElementById('flip-coin-btn');
+  const coin       = document.getElementById('coin-element');
   const resultText = document.getElementById('coin-result-text');
 
   btn.disabled = true;
   resultText.textContent = 'Dönüyor...';
 
-  // Random result: 0 for heads (Yazı), 1 for tails (Tura)
   const resultVal = Math.floor(Math.random() * 2);
-  const result = resultVal === 0 ? 'YAZI' : 'TURA';
+  const result    = resultVal === 0 ? 'YAZI' : 'TURA';
 
-  // Spin animation: smooth cumulative degrees
-  let extraSpins = (5 + Math.floor(Math.random() * 4)) * 360; // 1800, 2160, etc.
-  currentCoinRotation += extraSpins;
-  
-  let currentMod = currentCoinRotation % 360;
-  if (result === 'YAZI') {
-    currentCoinRotation += (360 - currentMod) % 360;
+  currentCoinRotation += 2160;
+  const mod = currentCoinRotation % 360;
+  if (resultVal === 0) {
+    currentCoinRotation += (360 - mod) % 360;
   } else {
-    currentCoinRotation += (540 - currentMod) % 360;
+    currentCoinRotation += (180 - mod + 360) % 360;
   }
 
   coin.style.transform = `rotateY(${currentCoinRotation}deg)`;
 
   setTimeout(() => {
     resultText.textContent = resultVal === 0 ? '🪙 YAZI GELDİ!' : '⚡ TURA GELDİ!';
-    
-    // Update stats
     coinStats.totalCount++;
-    if (resultVal === 0) {
-      coinStats.headsCount++;
-    } else {
-      coinStats.tailsCount++;
-    }
-    
+    if (resultVal === 0) { coinStats.headsCount++; } else { coinStats.tailsCount++; }
     coinHistory.unshift(result);
-    if (coinHistory.length > 20) {
-      coinHistory.pop();
-    }
-
+    if (coinHistory.length > 20) coinHistory.pop();
     saveCoinStats();
     updateCoinUI();
     updateCoinHistoryUI();
-
-    btn.disabled = false;
-    isCoinFlipping = false;
-  }, 2000);
+    btn.disabled    = false;
+    isCoinFlipping  = false;
+  }, 2100);
 }
 
 // ============================================
 // 5. HIZLI MATEMATİK (MATH CHALLENGE)
 // ============================================
 
-let mathHighScore = 0;
-let mathScore = 0;
-let mathTimeRemaining = 10.0;
+let mathHighScore     = 0;
+let mathScore         = 0;
 let mathTimerInterval = null;
 let currentMathAnswer = 0;
-let mathIsActive = false;
+let mathIsActive      = false;
+
+function rand(min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; }
+function pick(arr)      { return arr[Math.floor(Math.random() * arr.length)]; }
 
 function loadMathHighScore() {
   const saved = localStorage.getItem('blitzhub-math-highscore');
-  if (saved) {
-    mathHighScore = parseInt(saved) || 0;
-  }
+  mathHighScore = saved ? (parseInt(saved) || 0) : 0;
   document.getElementById('math-highscore-val').textContent = mathHighScore;
 }
 
 function saveMathHighScore() {
-  localStorage.setItem('blitzhub-math-highscore', mathHighScore);
+  localStorage.setItem('blitzhub-math-highscore', String(mathHighScore));
 }
 
 function startMathGame() {
-  mathScore = 0;
+  mathScore    = 0;
   mathIsActive = true;
   document.getElementById('math-stage-start').classList.add('hidden');
   document.getElementById('math-stage-over').classList.add('hidden');
   document.getElementById('math-stage-play').classList.remove('hidden');
-  
-  document.getElementById('math-current-score').textContent = mathScore;
-  
+  document.getElementById('math-current-score').textContent = 0;
   generateMathQuestion();
 }
 
 function generateMathQuestion() {
   if (!mathIsActive) return;
-
-  let num1, num2, operator, questionText;
-  
-  if (mathScore < 5) {
-    operator = Math.random() < 0.5 ? '+' : '-';
-    num1 = Math.floor(Math.random() * 19) + 2; // 2-20
-    num2 = Math.floor(Math.random() * 19) + 2; // 2-20
-    if (operator === '-' && num1 < num2) {
-      [num1, num2] = [num2, num1];
-    }
-  } else if (mathScore < 10) {
-    const ops = ['+', '-', '*'];
-    operator = ops[Math.floor(Math.random() * ops.length)];
-    if (operator === '*') {
-      num1 = Math.floor(Math.random() * 8) + 2; // 2-9
-      num2 = Math.floor(Math.random() * 8) + 2; // 2-9
-    } else {
-      num1 = Math.floor(Math.random() * 49) + 2; // 2-50
-      num2 = Math.floor(Math.random() * 49) + 2; // 2-50
-      if (operator === '-' && num1 < num2) [num1, num2] = [num2, num1];
-    }
-  } else if (mathScore < 20) {
-    const ops = ['+', '-', '*', '/'];
-    operator = ops[Math.floor(Math.random() * ops.length)];
-    if (operator === '*') {
-      num1 = Math.floor(Math.random() * 11) + 2; // 2-12
-      num2 = Math.floor(Math.random() * 11) + 2; // 2-12
-    } else if (operator === '/') {
-      num2 = Math.floor(Math.random() * 8) + 2; // 2-9 divisor
-      currentMathAnswer = Math.floor(Math.random() * 9) + 2; // 2-10 quotient
-      num1 = num2 * currentMathAnswer; // integer dividend
-    } else {
-      num1 = Math.floor(Math.random() * 99) + 2; // 2-100
-      num2 = Math.floor(Math.random() * 99) + 2; // 2-100
-    }
-  } else {
-    const ops = ['+', '-', '*', '/'];
-    operator = ops[Math.floor(Math.random() * ops.length)];
-    if (operator === '*') {
-      num1 = Math.floor(Math.random() * 14) + 6; // 6-19
-      num2 = Math.floor(Math.random() * 14) + 6; // 6-19
-    } else if (operator === '/') {
-      num2 = Math.floor(Math.random() * 11) + 4; // 4-14
-      currentMathAnswer = Math.floor(Math.random() * 11) + 4; // 4-14
-      num1 = num2 * currentMathAnswer;
-    } else {
-      num1 = Math.floor(Math.random() * 199) + 10;
-      num2 = Math.floor(Math.random() * 199) + 10;
-    }
-  }
-
-  if (operator !== '/') {
-    if (operator === '+') currentMathAnswer = num1 + num2;
-    else if (operator === '-') currentMathAnswer = num1 - num2;
-    else if (operator === '*') currentMathAnswer = num1 * num2;
-  }
-
-  let opDisplay = operator;
-  if (operator === '*') opDisplay = '×';
-  if (operator === '/') opDisplay = '÷';
-
-  questionText = `${num1} ${opDisplay} ${num2} = ?`;
-  document.getElementById('math-question-text').textContent = questionText;
-
-  const options = new Set();
-  options.add(currentMathAnswer);
-
-  while (options.size < 4) {
-    let fake;
-    const diff = Math.floor(Math.random() * 10) + 1;
-    const sign = Math.random() < 0.5 ? -1 : 1;
-    
-    if (Math.random() < 0.4) {
-      fake = currentMathAnswer + (sign * diff);
-    } else if (Math.random() < 0.7 && currentMathAnswer > 5) {
-      fake = currentMathAnswer + (sign * (Math.floor(Math.random() * 3) + 1) * 2);
-    } else {
-      fake = currentMathAnswer + (sign * 10);
-    }
-    
-    if (fake !== currentMathAnswer && (operator !== '/' || fake >= 0)) {
-      options.add(fake);
-    }
-  }
-
-  const optionsArr = Array.from(options);
-  for (let i = optionsArr.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [optionsArr[i], optionsArr[j]] = [optionsArr[j], optionsArr[i]];
-  }
-
-  const container = document.getElementById('math-options-container');
-  container.innerHTML = optionsArr.map(opt => `
-    <button class="math-option-btn" onclick="handleMathAnswer(${opt})">${opt}</button>
-  `).join('');
-
-  mathTimeRemaining = 10.0;
   if (mathTimerInterval) clearInterval(mathTimerInterval);
-  
-  const timerText = document.getElementById('math-timer-text');
-  const timerBar = document.getElementById('math-timer-bar');
-  timerText.textContent = mathTimeRemaining.toFixed(1);
-  timerBar.style.width = '100%';
 
+  let num1, num2, operator;
+
+  if (mathScore < 5) {
+    operator = pick(['+', '-']);
+    num1 = rand(2, 20); num2 = rand(2, 20);
+    if (operator === '-' && num1 < num2) [num1, num2] = [num2, num1];
+  } else if (mathScore < 10) {
+    operator = pick(['+', '-', '*']);
+    if (operator === '*') { num1 = rand(2, 9); num2 = rand(2, 9); }
+    else { num1 = rand(5, 50); num2 = rand(5, 50); if (operator === '-' && num1 < num2) [num1, num2] = [num2, num1]; }
+  } else if (mathScore < 20) {
+    operator = pick(['+', '-', '*', '/']);
+    if (operator === '*') { num1 = rand(2, 12); num2 = rand(2, 12); }
+    else if (operator === '/') { num2 = rand(2, 9); currentMathAnswer = rand(2, 10); num1 = num2 * currentMathAnswer; }
+    else { num1 = rand(10, 100); num2 = rand(10, 100); if (operator === '-' && num1 < num2) [num1, num2] = [num2, num1]; }
+  } else {
+    operator = pick(['+', '-', '*', '/']);
+    if (operator === '*') { num1 = rand(6, 19); num2 = rand(6, 19); }
+    else if (operator === '/') { num2 = rand(4, 14); currentMathAnswer = rand(4, 14); num1 = num2 * currentMathAnswer; }
+    else { num1 = rand(20, 200); num2 = rand(20, 200); if (operator === '-' && num1 < num2) [num1, num2] = [num2, num1]; }
+  }
+
+  if (operator === '+') currentMathAnswer = num1 + num2;
+  else if (operator === '-') currentMathAnswer = num1 - num2;
+  else if (operator === '*') currentMathAnswer = num1 * num2;
+
+  const opDisplay = operator === '*' ? '×' : operator === '/' ? '÷' : operator;
+  document.getElementById('math-question-text').textContent = `${num1} ${opDisplay} ${num2} = ?`;
+
+  const wrongSet = new Set();
+  let safety = 0;
+  while (wrongSet.size < 3 && safety < 300) {
+    safety++;
+    const offset = rand(1, 15) * (Math.random() < 0.5 ? -1 : 1);
+    const fake   = currentMathAnswer + offset;
+    if (fake !== currentMathAnswer && fake >= 0) wrongSet.add(fake);
+  }
+
+  const opts = [currentMathAnswer, ...Array.from(wrongSet)];
+  for (let i = opts.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [opts[i], opts[j]] = [opts[j], opts[i]];
+  }
+
+  document.getElementById('math-options-container').innerHTML = opts.map(opt =>
+    `<button class="math-option-btn" onclick="handleMathAnswer(${opt})">${opt}</button>`
+  ).join('');
+
+  const timeLimit = 10000;
   const timeStart = Date.now();
-  const timeLimit = 10000; // 10s
+  const timerText = document.getElementById('math-timer-text');
+  const timerBar  = document.getElementById('math-timer-bar');
+  timerText.textContent = '10.0';
+  timerBar.style.width  = '100%';
+  timerBar.style.background = 'var(--accent)';
 
   mathTimerInterval = setInterval(() => {
-    const elapsed = Date.now() - timeStart;
-    mathTimeRemaining = Math.max(0, (timeLimit - elapsed) / 1000);
-    timerText.textContent = mathTimeRemaining.toFixed(1);
-    timerBar.style.width = `${(mathTimeRemaining / 10) * 100}%`;
-
-    if (mathTimeRemaining <= 0) {
-      clearInterval(mathTimerInterval);
-      endMathGame();
-    }
+    const elapsed   = Date.now() - timeStart;
+    const remaining = Math.max(0, (timeLimit - elapsed) / 1000);
+    timerText.textContent  = remaining.toFixed(1);
+    timerBar.style.width   = `${(remaining / 10) * 100}%`;
+    timerBar.style.background = remaining < 3 ? 'var(--lose)' : 'var(--accent)';
+    if (remaining <= 0) { clearInterval(mathTimerInterval); endMathGame(); }
   }, 50);
 }
 
 function handleMathAnswer(selected) {
   if (!mathIsActive) return;
-  
   if (selected === currentMathAnswer) {
     mathScore++;
     document.getElementById('math-current-score').textContent = mathScore;
@@ -739,13 +667,9 @@ function handleMathAnswer(selected) {
 function endMathGame() {
   mathIsActive = false;
   if (mathTimerInterval) clearInterval(mathTimerInterval);
-
   document.getElementById('math-stage-play').classList.add('hidden');
-  const overStage = document.getElementById('math-stage-over');
-  overStage.classList.remove('hidden');
-
+  document.getElementById('math-stage-over').classList.remove('hidden');
   document.getElementById('math-final-score-val').textContent = mathScore;
-
   const recordBanner = document.getElementById('math-new-record');
   if (mathScore > mathHighScore) {
     mathHighScore = mathScore;
@@ -761,8 +685,10 @@ function endMathGame() {
 function resetMathStage() {
   mathIsActive = false;
   if (mathTimerInterval) clearInterval(mathTimerInterval);
-  
-  document.getElementById('math-stage-play').classList.add('hidden');
-  document.getElementById('math-stage-over').classList.add('hidden');
-  document.getElementById('math-stage-start').classList.remove('hidden');
+  const sp = document.getElementById('math-stage-play');
+  const so = document.getElementById('math-stage-over');
+  const ss = document.getElementById('math-stage-start');
+  if (sp) sp.classList.add('hidden');
+  if (so) so.classList.add('hidden');
+  if (ss) ss.classList.remove('hidden');
 }
