@@ -58,19 +58,19 @@ function switchTab(tabId) {
   // Tüm butonlardan aktifliği kaldır
   const buttons = document.querySelectorAll('.tab-btn');
   buttons.forEach(btn => {
-    btn.classList.remove('active', 'text-brand-gold', 'bg-slate-100', 'dark:bg-slate-800/30', 'border-brand-gold');
-    btn.classList.add('text-slate-600', 'dark:text-slate-400');
+    btn.classList.remove('active', 'text-amber-700', 'font-semibold', 'bg-slate-100', 'border-transparent', 'dark:text-brand-gold', 'dark:bg-slate-800/30');
+    btn.classList.add('text-slate-700', 'font-medium', 'dark:text-slate-400');
   });
 
   // Seçilen sekmeyi göster
   const activeContent = document.getElementById(`tab-content-${tabId}`);
   if (activeContent) activeContent.classList.remove('hidden');
 
-  // Seçilen butonu aktifleştir
+  // Seçilen butonu aktifleştir (High Contrast active classes)
   const activeBtn = document.getElementById(`tab-btn-${tabId}`);
   if (activeBtn) {
-    activeBtn.classList.add('active', 'text-brand-gold', 'bg-slate-100', 'dark:bg-slate-800/30', 'border-brand-gold');
-    activeBtn.classList.remove('text-slate-600', 'dark:text-slate-400');
+    activeBtn.classList.add('active', 'text-amber-700', 'font-semibold', 'bg-slate-100', 'dark:text-brand-gold', 'dark:bg-slate-800/30');
+    activeBtn.classList.remove('text-slate-700', 'font-medium', 'dark:text-slate-400');
   }
   
   // Lucide ikonlarını yeniden oluştur
@@ -79,28 +79,28 @@ function switchTab(tabId) {
 
 
 // ==========================================
-// 2. TAŞ KAĞIT MAKAS OYUN MOTORU (SALLAMA & SÜRE EKLENDİ)
+// 2. TAŞ KAĞIT MAKAS OYUN MOTORU
 // ==========================================
 
 let rpsScores = { player: 0, computer: 0, draws: 0, streak: 0 };
-let isRpsPlaying = false; // Spam tıklamayı önleme bayrağı
+let isRpsPlaying = false;
 
-// SVG Vektör Tanımlamaları (✊, ✋, ✌️ ikonları)
+// SVG Vektör Tanımlamaları
 const rpsSvgs = {
-  rock: `<svg class="w-16 h-16 text-brand-teal drop-shadow-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  rock: `<svg class="w-16 h-16 text-teal-700 dark:text-brand-teal drop-shadow-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M18 10V8a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v2" />
           <path d="M14 10V7a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v3" />
           <path d="M10 10V8a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v5" />
           <path d="M18 10a2 2 0 0 1 2 2v2a8 8 0 0 1-8 8h-2a8 8 0 0 1-8-8v-3" />
           <path d="M6 13V9a2 2 0 0 1 2-2v0a2 2 0 0 1 2 2v4" />
         </svg>`,
-  paper: `<svg class="w-16 h-16 text-brand-teal drop-shadow-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  paper: `<svg class="w-16 h-16 text-teal-700 dark:text-brand-teal drop-shadow-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
            <path d="M18 8a2 2 0 1 1 4 0v6a10 10 0 0 1-10 10h-2A10 10 0 0 1 0 14V8a2 2 0 1 1 4 0v4" />
            <path d="M6 8a2 2 0 1 1 4 0v4" />
            <path d="M10 6a2 2 0 1 1 4 0v6" />
            <path d="M14 5a2 2 0 1 1 4 0v7" />
          </svg>`,
-  scissors: `<svg class="w-16 h-16 text-brand-teal drop-shadow-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  scissors: `<svg class="w-16 h-16 text-teal-700 dark:text-brand-teal drop-shadow-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M10 10V4a2 2 0 1 1 4 0v4" />
               <path d="M14 10V2a2 2 0 1 1 4 0v8" />
               <path d="M18 12a2 2 0 1 1 4 0v2a8 8 0 0 1-8 8h-2a8 8 0 0 1-8-8v-3" />
@@ -151,20 +151,18 @@ function resetRpsScores() {
   saveRpsScores();
   updateRpsUI();
   
-  // Arayüz durumunu sıfırla
   document.getElementById('rps-stage-idle').classList.remove('hidden');
   document.getElementById('rps-stage-battle').classList.add('hidden');
   document.getElementById('rps-result-panel').classList.add('hidden');
 }
 
 function playRps(playerChoice) {
-  if (isRpsPlaying) return; // Oyun oynanıyorsa yeni girişi engelle
+  if (isRpsPlaying) return;
   isRpsPlaying = true;
 
-  // Arayüz Değişiklikleri
   document.getElementById('rps-stage-idle').classList.add('hidden');
   document.getElementById('rps-stage-battle').classList.remove('hidden');
-  document.getElementById('rps-result-panel').classList.add('hidden'); // Sonucu sakla
+  document.getElementById('rps-result-panel').classList.add('hidden');
 
   const playerHandDiv = document.getElementById('rps-battle-player');
   const computerHandDiv = document.getElementById('rps-battle-computer');
@@ -172,17 +170,16 @@ function playRps(playerChoice) {
   const computerLabel = document.getElementById('rps-label-computer');
   const countdownText = document.getElementById('rps-countdown-text');
 
-  // Her ikisini de sallanan Taş yap (RPS ritmi)
+  // Her ikisini de sallanan Taş yap
   playerHandDiv.innerHTML = rpsSvgs.rock;
   computerHandDiv.innerHTML = rpsSvgs.rock;
   playerLabel.textContent = 'Sallanıyor...';
   computerLabel.textContent = 'Sallanıyor...';
 
-  // Sallama Sınıflarını Ekle
+  // Sallama Animasyonlarını Ekle
   playerHandDiv.classList.add('animate-shake-player');
   computerHandDiv.classList.add('animate-shake-computer');
 
-  // Geri sayım sayacını başlat
   countdownText.classList.remove('hidden');
   let countdownVal = 3;
   countdownText.textContent = countdownVal;
@@ -197,46 +194,40 @@ function playRps(playerChoice) {
     }
   }, 400);
 
-  // 1.5 Saniye Sallanma Süresi
   setTimeout(() => {
-    // Sallanmayı ve Geri Sayımı Durdur
     playerHandDiv.classList.remove('animate-shake-player');
     computerHandDiv.classList.remove('animate-shake-computer');
     countdownText.classList.add('hidden');
 
-    // Bilgisayar hamlesini hesapla
     const choices = ['rock', 'paper', 'scissors'];
     const computerChoice = choices[Math.floor(Math.random() * choices.length)];
 
-    // Gerçek hamle görsellerini ata
+    // Gerçek hamle ikonlarını yerleştir
     playerHandDiv.innerHTML = rpsSvgs[playerChoice];
     computerHandDiv.innerHTML = rpsSvgs[computerChoice];
     playerLabel.textContent = rpsNames[playerChoice];
     computerLabel.textContent = rpsNames[computerChoice];
 
-    // Sonuç panelini göster
     const resultPanel = document.getElementById('rps-result-panel');
     const resultText = document.getElementById('rps-result-text');
     const resultSubtext = document.getElementById('rps-result-subtext');
     resultPanel.classList.remove('hidden');
 
-    // Skor kıyaslama mantığı
     const beats = { rock: 'scissors', paper: 'rock', scissors: 'paper' };
 
     if (playerChoice === computerChoice) {
       rpsScores.draws++;
       rpsScores.streak = 0;
       resultText.textContent = 'BERABERE!';
-      resultText.className = 'text-2xl font-bold text-slate-400 tracking-wide';
+      resultText.className = 'text-2xl font-extrabold text-slate-600 dark:text-slate-400 tracking-wide';
       resultSubtext.textContent = 'İki taraf da aynı hamleyi yaptı.';
     } else if (beats[playerChoice] === computerChoice) {
       rpsScores.player++;
       rpsScores.streak++;
       resultText.textContent = 'KAZANDIN!';
-      resultText.className = 'text-2xl font-bold text-success-emerald tracking-wide';
-      resultSubtext.textContent = `${rpsNames[playerChoice]} ${rpsNames[computerChoice].toLowerCase()} hamlesini yener.`;
+      resultText.className = 'text-2xl font-extrabold text-emerald-700 dark:text-success-emerald tracking-wide';
+      resultSubtext.textContent = `${rpsNames[playerChoice]} ${rpsNames[computerChoice].toLowerCase()} hamlesini alt eder.`;
       
-      // Konfeti patlat
       confetti({
         particleCount: 40,
         spread: 60,
@@ -257,13 +248,13 @@ function playRps(playerChoice) {
       rpsScores.computer++;
       rpsScores.streak = 0;
       resultText.textContent = 'KAYBETTİN!';
-      resultText.className = 'text-2xl font-bold text-danger-crimson tracking-wide';
-      resultSubtext.textContent = `${rpsNames[computerChoice]} ${rpsNames[playerChoice].toLowerCase()} hamlesini yener.`;
+      resultText.className = 'text-2xl font-extrabold text-red-700 dark:text-danger-crimson tracking-wide';
+      resultSubtext.textContent = `${rpsNames[computerChoice]} ${rpsNames[playerChoice].toLowerCase()} hamlesini alt eder.`;
     }
 
     saveRpsScores();
     updateRpsUI();
-    isRpsPlaying = false; // Yeni oyun için kilidi aç
+    isRpsPlaying = false;
   }, 1500);
 }
 
@@ -305,11 +296,11 @@ function updateDiceHistoryUI() {
   }
 
   listContainer.innerHTML = diceHistory.map((item, index) => `
-    <div class="flex items-center justify-between bg-slate-100 p-2 rounded-lg border border-slate-200 dark:bg-slate-900/60 dark:border-slate-800/80">
-      <span class="text-slate-500 font-semibold">${diceHistory.length - index}. Atış:</span>
-      <div class="flex items-center gap-1.5">
-        <span class="bg-brand-gold/10 text-brand-gold px-2 py-0.5 rounded font-bold mono-font">${item.dice.join(' + ')}</span>
-        <span class="font-bold text-slate-700 dark:text-slate-350 mono-font">= ${item.total}</span>
+    <div class="flex items-center justify-between bg-white p-2.5 rounded-lg border border-slate-200 dark:bg-slate-900/60 dark:border-slate-800/80">
+      <span class="text-slate-600 font-bold dark:text-slate-400">${diceHistory.length - index}. Atış:</span>
+      <div class="flex items-center gap-2">
+        <span class="bg-amber-100 text-amber-800 border border-amber-300 px-2 py-0.5 rounded-md font-bold mono-font dark:bg-brand-gold/10 dark:border-brand-gold/30 dark:text-brand-gold">${item.dice.join(' + ')}</span>
+        <span class="font-bold text-slate-800 dark:text-slate-200 mono-font">= ${item.total}</span>
       </div>
     </div>
   `).join('');
@@ -366,12 +357,10 @@ function rollDice() {
   const totalPanel = document.getElementById('dice-total-panel');
   const totalValNode = document.getElementById('dice-total-value');
 
-  // Butonu kilitle
   rollBtn.disabled = true;
-  rollBtn.classList.remove('hover:bg-brand-gold-hover');
+  rollBtn.classList.remove('hover:bg-amber-800', 'dark:hover:bg-brand-gold-hover');
   rollBtn.classList.add('opacity-50', 'cursor-not-allowed');
 
-  // Animasyonu Başlat
   const diceElements = [];
   for (let i = 0; i < count; i++) {
     const d = document.getElementById(`dice-${i}`);
@@ -381,7 +370,6 @@ function rollDice() {
     }
   }
 
-  // 1 Saniye sonra durdur ve değer hesapla
   setTimeout(() => {
     let total = 0;
     const rolls = [];
@@ -406,9 +394,8 @@ function rollDice() {
     updateDiceStatsUI();
     updateDiceHistoryUI();
 
-    // Buton kilidini kaldır
     rollBtn.disabled = false;
-    rollBtn.classList.add('hover:bg-brand-gold-hover');
+    rollBtn.classList.add('hover:bg-amber-800', 'dark:hover:bg-brand-gold-hover');
     rollBtn.classList.remove('opacity-50', 'cursor-not-allowed');
     
     if (total === (count * 6)) {
@@ -511,14 +498,14 @@ function renderParticipants() {
   countBadge.textContent = `${participants.length} Aday`;
 
   if (participants.length === 0) {
-    container.innerHTML = '<span class="text-xs text-slate-500 w-full text-center py-2">Henüz kimse eklenmedi.</span>';
+    container.innerHTML = '<span class="text-xs text-slate-500 w-full text-center py-2 font-semibold">Henüz kimse eklenmedi.</span>';
     return;
   }
 
   container.innerHTML = participants.map((name, index) => `
-    <span class="inline-flex items-center gap-1 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-350 px-2.5 py-1 rounded-md text-xs font-semibold border border-slate-200 dark:border-slate-700/60">
+    <span class="inline-flex items-center gap-1 bg-slate-200/80 dark:bg-slate-800 text-slate-700 dark:text-slate-350 px-2.5 py-1.2 rounded-md text-xs font-bold border border-slate-300 dark:border-slate-700/60">
       <span>${name}</span>
-      <button onclick="removeParticipant(${index})" class="text-slate-400 hover:text-danger-crimson cursor-pointer font-bold focus:outline-none transition-colors ml-0.5">&times;</button>
+      <button onclick="removeParticipant(${index})" class="text-slate-500 hover:text-danger-crimson cursor-pointer font-bold focus:outline-none transition-colors ml-0.5">&times;</button>
     </span>
   `).join('');
 }
@@ -540,26 +527,23 @@ function drawRaffle() {
   const stageResults = document.getElementById('raffle-stage-results');
   const shuffleBox = document.getElementById('raffle-shuffle-box');
 
-  // Arayüz kilidi
   drawBtn.disabled = true;
-  drawBtn.classList.remove('hover:bg-brand-teal-hover');
+  drawBtn.classList.remove('hover:bg-teal-800', 'dark:hover:bg-brand-teal-hover');
   drawBtn.classList.add('opacity-50', 'cursor-not-allowed');
   
   stageIdle.classList.add('hidden');
   stageResults.classList.add('hidden');
   stageShuffling.classList.remove('hidden');
 
-  // Karıştırma animasyonu
   let shuffleInterval = setInterval(() => {
     const randomName = participants[Math.floor(Math.random() * participants.length)];
     shuffleBox.textContent = randomName;
   }, 100);
 
-  // 2 Saniye sonra kazananları açıkla
   setTimeout(() => {
     clearInterval(shuffleInterval);
 
-    // Fisher-Yates Karıştırma
+    // Fisher-Yates
     const listCopy = [...participants];
     for (let i = listCopy.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
@@ -569,27 +553,25 @@ function drawRaffle() {
     const winners = listCopy.slice(0, winCount);
     const backups = listCopy.slice(winCount, winCount + backCount);
 
-    // UI'da kazananları yazdır
     const winnersOutput = document.getElementById('raffle-winners-output');
     winnersOutput.innerHTML = winners.map((w, idx) => `
-      <div class="flex items-center gap-3 w-full bg-brand-gold/10 border border-brand-gold/30 p-2.5 rounded-xl justify-between animate-pulse">
+      <div class="flex items-center gap-3 w-full bg-amber-50 border border-amber-200 p-2.5 rounded-xl justify-between animate-pulse dark:bg-brand-gold/10 dark:border-brand-gold/30">
         <div class="flex items-center gap-2">
-          <span class="bg-brand-gold text-slate-950 rounded-lg w-6 h-6 flex items-center justify-center text-xs font-extrabold font-mono">${idx + 1}</span>
-          <span class="font-bold text-slate-800 dark:text-slate-100 text-sm tracking-wide">${w}</span>
+          <span class="bg-amber-700 text-white rounded-lg w-6 h-6 flex items-center justify-center text-xs font-extrabold font-mono dark:bg-brand-gold dark:text-slate-950">${idx + 1}</span>
+          <span class="font-extrabold text-slate-800 dark:text-slate-100 text-sm tracking-wide">${w}</span>
         </div>
-        <span class="text-[10px] bg-brand-gold/25 text-brand-gold border border-brand-gold/45 px-2 py-0.5 rounded font-extrabold uppercase tracking-wide">KAZANDI</span>
+        <span class="text-[10px] bg-amber-100 text-amber-800 border border-amber-300 px-2 py-0.5 rounded font-extrabold uppercase tracking-wide dark:bg-brand-gold/25 dark:text-brand-gold dark:border-brand-gold/45">KAZANDI</span>
       </div>
     `).join('');
 
-    // Yedekleri yazdır
     const backupsContainer = document.getElementById('raffle-backups-container');
     const backupsOutput = document.getElementById('raffle-backups-output');
 
     if (backups.length > 0) {
       backupsOutput.innerHTML = backups.map((b, idx) => `
-        <span class="inline-flex items-center gap-1.5 bg-white border border-slate-200 px-2.5 py-1 rounded-lg text-xs font-semibold dark:bg-slate-900/60 dark:border-slate-800">
+        <span class="inline-flex items-center gap-1.5 bg-white border border-slate-200 px-2.5 py-1.2 rounded-lg text-xs font-bold shadow-sm dark:bg-slate-900/60 dark:border-slate-800">
           <span class="text-slate-500 font-mono font-extrabold text-[10px]">${idx + 1}.Yedek:</span>
-          <span class="font-bold text-slate-700 dark:text-slate-350">${b}</span>
+          <span class="font-extrabold text-slate-800 dark:text-slate-300">${b}</span>
         </span>
       `).join('');
       backupsContainer.classList.remove('hidden');
@@ -601,7 +583,7 @@ function drawRaffle() {
     stageResults.classList.remove('hidden');
 
     drawBtn.disabled = false;
-    drawBtn.classList.add('hover:bg-brand-teal-hover');
+    drawBtn.classList.add('hover:bg-teal-800', 'dark:hover:bg-brand-teal-hover');
     drawBtn.classList.remove('opacity-50', 'cursor-not-allowed');
 
     triggerGiveawayConfetti();
@@ -619,14 +601,14 @@ function triggerGiveawayConfetti() {
       angle: 60,
       spread: 55,
       origin: { x: 0, y: 0.8 },
-      colors: ['#facc15', '#06b6d4']
+      colors: ['#b45309', '#0f766e']
     });
     confetti({
       particleCount: 3,
       angle: 120,
       spread: 55,
       origin: { x: 1, y: 0.8 },
-      colors: ['#facc15', '#06b6d4']
+      colors: ['#b45309', '#0f766e']
     });
 
     if (Date.now() < end) {

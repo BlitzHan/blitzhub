@@ -20,9 +20,9 @@
       --color-brand-gold-hover: #eab308;
       --color-brand-teal: #06b6d4;
       --color-brand-teal-hover: #0891b2;
-      --color-brand-dark-bg: #0b0c10;
-      --color-brand-dark-card: #161b22;
-      --color-brand-light-bg: #f8fafc;
+      --color-brand-dark-bg: #090a0f;
+      --color-brand-dark-card: #111827;
+      --color-brand-light-bg: #f3f4f6;
       --color-brand-light-card: #ffffff;
       --color-danger-crimson: #ef4444;
       --color-success-emerald: #10b981;
@@ -36,24 +36,24 @@
   <div class="flex flex-col min-h-screen">
     
     <!-- Top Header -->
-    <header class="border-b border-slate-200 py-4 px-6 sticky top-0 z-50 glass-panel dark:border-slate-850">
+    <header class="border-b border-slate-200 py-4 px-6 sticky top-0 z-50 solid-card dark:border-slate-850">
       <div class="max-w-7xl mx-auto flex items-center justify-between">
         
         <!-- Logo -->
         <div class="flex items-center gap-2">
-          <div class="bg-brand-gold/10 p-2 rounded-lg border border-brand-gold/30 flex items-center justify-center pulse-glow">
-            <i data-lucide="zap" class="w-6 h-6 text-brand-gold fill-brand-gold/20"></i>
+          <div class="bg-amber-100 p-2 rounded-lg border border-amber-300 flex items-center justify-center pulse-glow dark:bg-brand-gold/10 dark:border-brand-gold/30">
+            <i data-lucide="zap" class="w-6 h-6 text-amber-700 fill-amber-700/10 dark:text-brand-gold dark:fill-brand-gold/20"></i>
           </div>
           <div>
-            <h1 class="text-2xl font-bold tracking-tight bg-gradient-to-r from-brand-gold via-yellow-400 to-brand-teal bg-clip-text text-transparent">BlitzHub</h1>
-            <p class="text-xs text-slate-500 dark:text-slate-400 font-medium">Arcade &amp; Çekiliş Portalı</p>
+            <h1 class="text-2xl font-bold tracking-tight bg-gradient-to-r from-amber-700 via-amber-600 to-teal-800 bg-clip-text text-transparent dark:from-brand-gold dark:via-yellow-400 dark:to-brand-teal">BlitzHub</h1>
+            <p class="text-xs text-slate-500 font-medium dark:text-slate-400">Arcade &amp; Çekiliş Portalı</p>
           </div>
         </div>
 
         <!-- Controls (Theme Toggle & Git) -->
         <div class="flex items-center gap-4">
           <!-- Theme Toggle Button -->
-          <button id="theme-toggle" class="p-2.5 rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer transition-all duration-200 text-slate-500 hover:text-brand-gold dark:border-slate-800 dark:hover:bg-slate-800/50 dark:text-slate-400" title="Temayı Değiştir">
+          <button id="theme-toggle" class="p-2.5 rounded-lg border border-slate-200 hover:bg-slate-100 cursor-pointer transition-all duration-200 text-slate-600 hover:text-amber-700 dark:border-slate-800 dark:hover:bg-slate-800/50 dark:text-slate-400 dark:hover:text-brand-gold" title="Temayı Değiştir">
             <i data-lucide="sun" id="sun-icon" class="w-5 h-5 hidden"></i>
             <i data-lucide="moon" id="moon-icon" class="w-5 h-5"></i>
           </button>
@@ -73,31 +73,31 @@
       
       <!-- Left Sidebar Navigation -->
       <aside class="lg:col-span-1 flex flex-col gap-3">
-        <div class="glass-panel p-4 rounded-xl border border-slate-200 flex flex-col gap-2 dark:border-slate-850">
-          <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider px-3 mb-1 dark:text-slate-500">Araçlar &amp; Oyunlar</p>
+        <div class="solid-card p-4 rounded-xl border border-slate-200 flex flex-col gap-2 dark:border-slate-850">
+          <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider px-3 mb-1 dark:text-slate-500">Araçlar &amp; Oyunlar</p>
           
           <!-- RPS Tab -->
-          <button id="tab-btn-rps" class="tab-btn active flex items-center gap-3 w-full px-4 py-3 rounded-lg text-left transition-all duration-200 cursor-pointer text-slate-600 hover:text-brand-gold hover:bg-slate-100 border border-transparent font-medium dark:text-slate-400 dark:hover:text-brand-gold dark:hover:bg-slate-800/30" onclick="switchTab('rps')">
+          <button id="tab-btn-rps" class="tab-btn active flex items-center gap-3 w-full px-4 py-3 rounded-lg text-left transition-all duration-200 cursor-pointer text-slate-700 hover:text-amber-700 hover:bg-slate-100 border border-transparent font-semibold dark:text-slate-400 dark:hover:text-brand-gold dark:hover:bg-slate-800/30" onclick="switchTab('rps')">
             <i data-lucide="swords" class="w-5 h-5"></i>
             <span>Taş Kağıt Makas</span>
           </button>
 
           <!-- Dice Tab -->
-          <button id="tab-btn-dice" class="tab-btn flex items-center gap-3 w-full px-4 py-3 rounded-lg text-left transition-all duration-200 cursor-pointer text-slate-600 hover:text-brand-gold hover:bg-slate-100 border border-transparent font-medium dark:text-slate-400 dark:hover:text-brand-gold dark:hover:bg-slate-800/30" onclick="switchTab('dice')">
+          <button id="tab-btn-dice" class="tab-btn flex items-center gap-3 w-full px-4 py-3 rounded-lg text-left transition-all duration-200 cursor-pointer text-slate-700 hover:text-amber-700 hover:bg-slate-100 border border-transparent font-medium dark:text-slate-400 dark:hover:text-brand-gold dark:hover:bg-slate-800/30" onclick="switchTab('dice')">
             <i data-lucide="dices" class="w-5 h-5"></i>
             <span>Zar Atma</span>
           </button>
 
           <!-- Raffle Tab -->
-          <button id="tab-btn-raffle" class="tab-btn flex items-center gap-3 w-full px-4 py-3 rounded-lg text-left transition-all duration-200 cursor-pointer text-slate-600 hover:text-brand-gold hover:bg-slate-100 border border-transparent font-medium dark:text-slate-400 dark:hover:text-brand-gold dark:hover:bg-slate-800/30" onclick="switchTab('raffle')">
+          <button id="tab-btn-raffle" class="tab-btn flex items-center gap-3 w-full px-4 py-3 rounded-lg text-left transition-all duration-200 cursor-pointer text-slate-700 hover:text-amber-700 hover:bg-slate-100 border border-transparent font-medium dark:text-slate-400 dark:hover:text-brand-gold dark:hover:bg-slate-800/30" onclick="switchTab('raffle')">
             <i data-lucide="gift" class="w-5 h-5"></i>
             <span>Çekiliş Yap</span>
           </button>
         </div>
 
         <!-- Quick Stats / Help Board -->
-        <div class="glass-panel p-5 rounded-xl border border-slate-200 flex flex-col gap-4 text-sm dark:border-slate-850">
-          <h3 class="font-semibold text-brand-teal flex items-center gap-2">
+        <div class="solid-card p-5 rounded-xl border border-slate-200 flex flex-col gap-4 text-sm dark:border-slate-850">
+          <h3 class="font-bold text-teal-800 flex items-center gap-2 dark:text-brand-teal">
             <i data-lucide="info" class="w-4 h-4"></i>
             BlitzHub Hakkında
           </h3>
@@ -116,18 +116,18 @@
 
         <!-- 1. TAŞ KAĞIT MAKAS SEKMESİ -->
         <section id="tab-content-rps" class="tab-content flex flex-col gap-6">
-          <div class="glass-panel p-6 rounded-2xl border border-slate-200 glow-teal dark:border-slate-850">
+          <div class="solid-card p-6 rounded-2xl border border-slate-200 glow-teal dark:border-slate-850">
             
             <!-- Section Header -->
             <div class="flex items-center justify-between border-b border-slate-200 pb-4 mb-6 dark:border-slate-800">
               <div>
-                <h2 class="text-xl font-bold flex items-center gap-2 dark:text-slate-100">
-                  <i data-lucide="swords" class="text-brand-teal"></i>
+                <h2 class="text-xl font-bold flex items-center gap-2 text-slate-800 dark:text-slate-100">
+                  <i data-lucide="swords" class="text-teal-700 dark:text-brand-teal"></i>
                   Taş Kağıt Makas
                 </h2>
                 <p class="text-xs text-slate-500 dark:text-slate-400">Yapay Zekaya karşı yeteneklerini test et!</p>
               </div>
-              <button onclick="resetRpsScores()" class="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-slate-200 text-xs font-semibold hover:bg-slate-100 hover:text-brand-gold transition-colors duration-200 cursor-pointer text-slate-700 dark:border-slate-800 dark:text-slate-300 dark:hover:bg-slate-800">
+              <button onclick="resetRpsScores()" class="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-slate-200 text-xs font-semibold hover:bg-slate-100 hover:text-amber-700 transition-colors duration-200 cursor-pointer text-slate-700 dark:border-slate-800 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-brand-gold">
                 <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
                 Skorları Sıfırla
               </button>
@@ -136,34 +136,34 @@
             <!-- Scoreboard -->
             <div class="grid grid-cols-3 gap-4 mb-8 text-center">
               <div class="bg-slate-100 p-4 rounded-xl border border-slate-200 dark:bg-slate-900/60 dark:border-slate-800/80">
-                <span class="text-xs text-slate-500 uppercase font-semibold dark:text-slate-400">SEN</span>
-                <div id="rps-score-player" class="text-3xl font-bold text-brand-teal mt-1 mono-font">0</div>
+                <span class="text-xs text-slate-600 uppercase font-bold dark:text-slate-400">SEN</span>
+                <div id="rps-score-player" class="text-3xl font-bold text-teal-700 mt-1 mono-font dark:text-brand-teal">0</div>
               </div>
               <div class="bg-slate-100 p-4 rounded-xl border border-slate-200 dark:bg-slate-900/60 dark:border-slate-800/80">
-                <span class="text-xs text-slate-500 uppercase font-semibold dark:text-slate-400">BERABERE</span>
-                <div id="rps-score-draws" class="text-3xl font-bold text-slate-400 mt-1 mono-font dark:text-slate-500">0</div>
+                <span class="text-xs text-slate-600 uppercase font-bold dark:text-slate-400">BERABERE</span>
+                <div id="rps-score-draws" class="text-3xl font-bold text-slate-500 mt-1 mono-font dark:text-slate-500">0</div>
               </div>
               <div class="bg-slate-100 p-4 rounded-xl border border-slate-200 dark:bg-slate-900/60 dark:border-slate-800/80">
-                <span class="text-xs text-slate-500 uppercase font-semibold dark:text-slate-400">RAKİP (AI)</span>
-                <div id="rps-score-computer" class="text-3xl font-bold text-danger-crimson mt-1 mono-font">0</div>
+                <span class="text-xs text-slate-600 uppercase font-bold dark:text-slate-400">RAKİP (AI)</span>
+                <div id="rps-score-computer" class="text-3xl font-bold text-red-700 mt-1 mono-font dark:text-danger-crimson">0</div>
               </div>
             </div>
 
             <!-- Streak Banner -->
-            <div id="rps-streak-banner" class="hidden justify-center items-center gap-2 mb-6 py-2 px-4 bg-brand-gold/10 border border-brand-gold/30 rounded-xl text-brand-gold text-sm font-semibold pulse-glow">
-              <i data-lucide="flame" class="w-4 h-4 fill-brand-gold/20"></i>
+            <div id="rps-streak-banner" class="hidden justify-center items-center gap-2 mb-6 py-2 px-4 bg-amber-50 border border-amber-200 rounded-xl text-amber-800 text-sm font-bold pulse-glow dark:bg-brand-gold/10 dark:border-brand-gold/30 dark:text-brand-gold">
+              <i data-lucide="flame" class="w-4 h-4 fill-amber-700/10 dark:fill-brand-gold/20"></i>
               <span>Galibiyet Serisi: <span id="rps-streak-count" class="mono-font">0</span>!</span>
             </div>
 
             <!-- Game Display Stage -->
-            <div class="flex flex-col items-center justify-center p-8 bg-slate-50 rounded-2xl border border-slate-200 mb-8 min-h-[260px] dark:bg-slate-950/40 dark:border-slate-900/60">
+            <div class="flex flex-col items-center justify-center p-8 bg-slate-100 rounded-2xl border border-slate-200 mb-8 min-h-[260px] dark:bg-slate-950/40 dark:border-slate-900/60">
               
               <!-- Screen: Idle -->
               <div id="rps-stage-idle" class="text-center">
                 <div class="w-16 h-16 mx-auto mb-4 bg-white border border-slate-200 rounded-full flex items-center justify-center shadow-sm dark:bg-slate-900 dark:border-slate-800">
-                  <i data-lucide="mouse-pointer-click" class="w-8 h-8 text-brand-teal"></i>
+                  <i data-lucide="mouse-pointer-click" class="w-8 h-8 text-teal-700 dark:text-brand-teal"></i>
                 </div>
-                <h3 class="text-lg font-bold text-slate-700 dark:text-slate-300">Hamleni Seç ve Başla</h3>
+                <h3 class="text-lg font-bold text-slate-800 dark:text-slate-350">Hamleni Seç ve Başla</h3>
                 <p class="text-xs text-slate-500 mt-1 dark:text-slate-400">Aşağıdaki siber kartlardan birine tıklayarak düelloyu başlat.</p>
               </div>
 
@@ -173,28 +173,28 @@
                   
                   <!-- Player Side -->
                   <div class="flex flex-col items-center gap-3 w-1/3">
-                    <div class="text-xs text-slate-500 font-bold uppercase tracking-wider dark:text-slate-400">Senin Seçimin</div>
-                    <div id="rps-battle-player" class="w-24 h-24 rounded-2xl flex items-center justify-center bg-white border-2 border-brand-teal shadow-lg transition-transform duration-200 dark:bg-slate-900">
+                    <div class="text-xs text-slate-650 font-bold uppercase tracking-wider dark:text-slate-400">Senin Seçimin</div>
+                    <div id="rps-battle-player" class="w-24 h-24 rounded-2xl flex items-center justify-center bg-white border-2 border-teal-700 shadow-md transition-transform duration-200 dark:border-brand-teal dark:bg-slate-900">
                       <!-- Dynamically replaced with SVG -->
                     </div>
-                    <div id="rps-label-player" class="text-sm font-bold text-slate-700 dark:text-slate-300">Taş</div>
+                    <div id="rps-label-player" class="text-sm font-bold text-slate-800 dark:text-slate-300">Taş</div>
                   </div>
 
                   <!-- VS Badge -->
                   <div class="flex flex-col items-center justify-center">
-                    <div id="rps-countdown-text" class="text-2xl font-extrabold text-brand-gold animate-bounce mono-font mb-1 hidden">3</div>
-                    <div class="w-10 h-10 rounded-full bg-white border border-slate-200 flex items-center justify-center font-bold text-sm text-brand-teal shadow-md dark:bg-slate-900 dark:border-slate-800 dark:text-brand-gold">
+                    <div id="rps-countdown-text" class="text-2xl font-extrabold text-amber-700 animate-bounce mono-font mb-1 hidden dark:text-brand-gold">3</div>
+                    <div class="w-10 h-10 rounded-full bg-white border border-slate-200 flex items-center justify-center font-bold text-sm text-teal-700 shadow-md dark:bg-slate-900 dark:border-slate-800 dark:text-brand-gold">
                       VS
                     </div>
                   </div>
 
                   <!-- AI Side -->
                   <div class="flex flex-col items-center gap-3 w-1/3">
-                    <div class="text-xs text-slate-500 font-bold uppercase tracking-wider dark:text-slate-400">Rakip Seçimi</div>
-                    <div id="rps-battle-computer" class="w-24 h-24 rounded-2xl flex items-center justify-center bg-white border-2 border-danger-crimson shadow-lg transition-transform duration-200 computer-hand-mirror dark:bg-slate-900">
+                    <div class="text-xs text-slate-650 font-bold uppercase tracking-wider dark:text-slate-400">Rakip Seçimi</div>
+                    <div id="rps-battle-computer" class="w-24 h-24 rounded-2xl flex items-center justify-center bg-white border-2 border-red-700 shadow-md transition-transform duration-200 computer-hand-mirror dark:border-danger-crimson dark:bg-slate-900">
                       <!-- Dynamically replaced with SVG -->
                     </div>
-                    <div id="rps-label-computer" class="text-sm font-bold text-slate-700 dark:text-slate-300">Kağıt</div>
+                    <div id="rps-label-computer" class="text-sm font-bold text-slate-800 dark:text-slate-300">Kağıt</div>
                   </div>
 
                 </div>
@@ -202,8 +202,8 @@
 
               <!-- Battle Result Message -->
               <div id="rps-result-panel" class="hidden mt-6 text-center">
-                <div id="rps-result-text" class="text-2xl font-bold text-success-emerald tracking-wide">KAZANDIN!</div>
-                <div id="rps-result-subtext" class="text-xs text-slate-500 mt-1 dark:text-slate-400">Makas kağıdı keser.</div>
+                <div id="rps-result-text" class="text-2xl font-bold text-emerald-700 tracking-wide dark:text-success-emerald">KAZANDIN!</div>
+                <div id="rps-result-subtext" class="text-xs text-slate-600 mt-1 dark:text-slate-400">Makas kağıdı keser.</div>
               </div>
 
             </div>
@@ -211,38 +211,38 @@
             <!-- Choice Action Buttons -->
             <div class="grid grid-cols-3 gap-6">
               <!-- Rock Card -->
-              <button onclick="playRps('rock')" class="flex flex-col items-center gap-3 p-6 rounded-xl border border-slate-200 hover:border-brand-gold bg-white hover:bg-slate-50 transition-all duration-200 cursor-pointer transform hover:-translate-y-1 shadow-sm w-full dark:border-slate-800 dark:bg-slate-900/40 dark:hover:bg-slate-900/80">
-                <svg class="w-12 h-12 text-brand-teal drop-shadow-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <button onclick="playRps('rock')" class="flex flex-col items-center gap-3 p-6 rounded-xl border border-slate-200 hover:border-amber-700 bg-white hover:bg-slate-50 transition-all duration-200 cursor-pointer transform hover:-translate-y-1 shadow-sm w-full dark:border-slate-800 dark:bg-slate-900/40 dark:hover:bg-slate-900/80 dark:hover:border-brand-gold">
+                <svg class="w-12 h-12 text-teal-700 dark:text-brand-teal drop-shadow-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M18 10V8a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v2" />
                   <path d="M14 10V7a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v3" />
                   <path d="M10 10V8a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v5" />
                   <path d="M18 10a2 2 0 0 1 2 2v2a8 8 0 0 1-8 8h-2a8 8 0 0 1-8-8v-3" />
                   <path d="M6 13V9a2 2 0 0 1 2-2v0a2 2 0 0 1 2 2v4" />
                 </svg>
-                <span class="text-sm font-bold tracking-wide dark:text-slate-350">Taş</span>
+                <span class="text-sm font-bold tracking-wide text-slate-800 dark:text-slate-350">Taş</span>
               </button>
 
               <!-- Paper Card -->
-              <button onclick="playRps('paper')" class="flex flex-col items-center gap-3 p-6 rounded-xl border border-slate-200 hover:border-brand-gold bg-white hover:bg-slate-50 transition-all duration-200 cursor-pointer transform hover:-translate-y-1 shadow-sm w-full dark:border-slate-800 dark:bg-slate-900/40 dark:hover:bg-slate-900/80">
-                <svg class="w-12 h-12 text-brand-teal drop-shadow-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <button onclick="playRps('paper')" class="flex flex-col items-center gap-3 p-6 rounded-xl border border-slate-200 hover:border-amber-700 bg-white hover:bg-slate-50 transition-all duration-200 cursor-pointer transform hover:-translate-y-1 shadow-sm w-full dark:border-slate-800 dark:bg-slate-900/40 dark:hover:bg-slate-900/80 dark:hover:border-brand-gold">
+                <svg class="w-12 h-12 text-teal-700 dark:text-brand-teal drop-shadow-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M18 8a2 2 0 1 1 4 0v6a10 10 0 0 1-10 10h-2A10 10 0 0 1 0 14V8a2 2 0 1 1 4 0v4" />
                   <path d="M6 8a2 2 0 1 1 4 0v4" />
                   <path d="M10 6a2 2 0 1 1 4 0v6" />
                   <path d="M14 5a2 2 0 1 1 4 0v7" />
                 </svg>
-                <span class="text-sm font-bold tracking-wide dark:text-slate-350">Kağıt</span>
+                <span class="text-sm font-bold tracking-wide text-slate-800 dark:text-slate-350">Kağıt</span>
               </button>
 
               <!-- Scissors Card -->
-              <button onclick="playRps('scissors')" class="flex flex-col items-center gap-3 p-6 rounded-xl border border-slate-200 hover:border-brand-gold bg-white hover:bg-slate-50 transition-all duration-200 cursor-pointer transform hover:-translate-y-1 shadow-sm w-full dark:border-slate-800 dark:bg-slate-900/40 dark:hover:bg-slate-900/80">
-                <svg class="w-12 h-12 text-brand-teal drop-shadow-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <button onclick="playRps('scissors')" class="flex flex-col items-center gap-3 p-6 rounded-xl border border-slate-200 hover:border-amber-700 bg-white hover:bg-slate-50 transition-all duration-200 cursor-pointer transform hover:-translate-y-1 shadow-sm w-full dark:border-slate-800 dark:bg-slate-900/40 dark:hover:bg-slate-900/80 dark:hover:border-brand-gold">
+                <svg class="w-12 h-12 text-teal-700 dark:text-brand-teal drop-shadow-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M10 10V4a2 2 0 1 1 4 0v4" />
                   <path d="M14 10V2a2 2 0 1 1 4 0v8" />
                   <path d="M18 12a2 2 0 1 1 4 0v2a8 8 0 0 1-8 8h-2a8 8 0 0 1-8-8v-3" />
                   <path d="M6 14v-2a2 2 0 1 1 4 0v2" />
                   <path d="M10 14H6" />
                 </svg>
-                <span class="text-sm font-bold tracking-wide dark:text-slate-350">Makas</span>
+                <span class="text-sm font-bold tracking-wide text-slate-800 dark:text-slate-350">Makas</span>
               </button>
             </div>
 
@@ -251,20 +251,20 @@
 
         <!-- 2. ZAR ATMA SEKMESİ -->
         <section id="tab-content-dice" class="tab-content hidden flex flex-col gap-6">
-          <div class="glass-panel p-6 rounded-2xl border border-slate-200 glow-gold dark:border-slate-850">
+          <div class="solid-card p-6 rounded-2xl border border-slate-200 glow-gold dark:border-slate-850">
             
             <!-- Section Header -->
             <div class="flex items-center justify-between border-b border-slate-200 pb-4 mb-6 dark:border-slate-800">
               <div>
-                <h2 class="text-xl font-bold flex items-center gap-2 dark:text-slate-100">
-                  <i data-lucide="dices" class="text-brand-gold"></i>
+                <h2 class="text-xl font-bold flex items-center gap-2 text-slate-800 dark:text-slate-100">
+                  <i data-lucide="dices" class="text-amber-700 dark:text-brand-gold"></i>
                   Zar Atma
                 </h2>
                 <p class="text-xs text-slate-500 dark:text-slate-400">3D animasyonlu gerçekçi zarlar ile şansını dene.</p>
               </div>
               <div class="flex gap-2">
                 <!-- Select dice count -->
-                <select id="dice-count-select" class="bg-white border border-slate-200 rounded-lg text-xs font-semibold px-3 py-1.5 focus:outline-none focus:border-brand-gold text-slate-700 cursor-pointer dark:bg-slate-900 dark:border-slate-800 dark:text-slate-300">
+                <select id="dice-count-select" class="bg-white border border-slate-200 rounded-lg text-xs font-bold px-3 py-1.5 focus:outline-none focus:border-amber-700 text-slate-700 cursor-pointer dark:bg-slate-900 dark:border-slate-800 dark:text-slate-300">
                   <option value="1">1 Zar At</option>
                   <option value="2" selected>2 Zar At</option>
                   <option value="3">3 Zar At</option>
@@ -283,14 +283,14 @@
 
               <!-- Total Display -->
               <div id="dice-total-panel" class="hidden mt-6 text-center">
-                <div class="text-sm text-slate-500 font-semibold tracking-wider uppercase dark:text-slate-400">Toplam Sonuç</div>
-                <div id="dice-total-value" class="text-4xl font-bold text-brand-gold mt-1 mono-font">12</div>
+                <div class="text-sm text-slate-650 font-bold tracking-wider uppercase dark:text-slate-400">Toplam Sonuç</div>
+                <div id="dice-total-value" class="text-4xl font-extrabold text-amber-800 mt-1 mono-font dark:text-brand-gold">12</div>
               </div>
             </div>
 
             <!-- Action Area -->
             <div class="flex justify-center">
-              <button id="roll-dice-btn" onclick="rollDice()" class="flex items-center gap-2 px-8 py-3.5 bg-brand-gold text-slate-950 font-bold rounded-xl shadow-lg hover:bg-brand-gold-hover transition-all duration-200 cursor-pointer transform hover:-translate-y-0.5 active:translate-y-0 text-md tracking-wider pulse-glow">
+              <button id="roll-dice-btn" onclick="rollDice()" class="flex items-center gap-2 px-8 py-3.5 bg-amber-700 text-white font-bold rounded-xl shadow-md hover:bg-amber-800 transition-all duration-200 cursor-pointer transform hover:-translate-y-0.5 active:translate-y-0 text-md tracking-wider dark:bg-brand-gold dark:hover:bg-brand-gold-hover dark:text-slate-950 pulse-glow">
                 <i data-lucide="dices" class="w-5 h-5"></i>
                 ZARLARI AT!
               </button>
@@ -301,9 +301,9 @@
           <!-- Dice Stats / History Section -->
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <!-- Stats -->
-            <div class="glass-panel p-5 rounded-2xl border border-slate-200 dark:border-slate-850">
+            <div class="solid-card p-5 rounded-2xl border border-slate-200 dark:border-slate-850">
               <h3 class="font-bold text-sm tracking-wide text-slate-500 uppercase mb-4 flex items-center gap-2 dark:text-slate-400">
-                <i data-lucide="bar-chart-2" class="w-4 h-4 text-brand-teal"></i>
+                <i data-lucide="bar-chart-2" class="w-4 h-4 text-teal-700 dark:text-brand-teal"></i>
                 İstatistikler
               </h3>
               <div class="grid grid-cols-2 gap-4">
@@ -319,13 +319,13 @@
             </div>
 
             <!-- History -->
-            <div class="glass-panel p-5 rounded-2xl border border-slate-200 dark:border-slate-850 flex flex-col max-h-[160px]">
+            <div class="solid-card p-5 rounded-2xl border border-slate-200 dark:border-slate-850 flex flex-col max-h-[160px]">
               <div class="flex items-center justify-between mb-3">
                 <h3 class="font-bold text-sm tracking-wide text-slate-500 uppercase flex items-center gap-2 dark:text-slate-400">
-                  <i data-lucide="history" class="w-4 h-4 text-brand-teal"></i>
+                  <i data-lucide="history" class="w-4 h-4 text-teal-700 dark:text-brand-teal"></i>
                   Son Atışlar
                 </h3>
-                <button onclick="clearDiceHistory()" class="text-xs text-slate-500 hover:text-brand-gold cursor-pointer transition-colors duration-150">Temizle</button>
+                <button onclick="clearDiceHistory()" class="text-xs text-slate-500 hover:text-amber-700 cursor-pointer transition-colors duration-150">Temizle</button>
               </div>
               <div id="dice-history-list" class="flex-grow overflow-y-auto pr-1 flex flex-col gap-2 text-xs">
                 <!-- History items added dynamically -->
@@ -343,36 +343,36 @@
             <div class="md:col-span-2 flex flex-col gap-6">
               
               <!-- Participants Panel -->
-              <div class="glass-panel p-5 rounded-2xl border border-slate-200 flex flex-col dark:border-slate-850">
+              <div class="solid-card p-5 rounded-2xl border border-slate-200 flex flex-col dark:border-slate-850">
                 <div class="flex items-center justify-between pb-3 border-b border-slate-200 mb-4 dark:border-slate-800">
                   <h3 class="font-bold text-sm tracking-wide text-slate-700 flex items-center gap-2 dark:text-slate-350">
-                    <i data-lucide="users" class="text-brand-teal w-4 h-4"></i>
+                    <i data-lucide="users" class="text-teal-700 w-4 h-4 dark:text-brand-teal"></i>
                     Aday Listesi
                   </h3>
-                  <span class="bg-brand-teal/10 text-brand-teal border border-brand-teal/20 px-2 py-0.5 rounded text-xs font-bold mono-font" id="participant-count-badge">0 Aday</span>
+                  <span class="bg-teal-50 text-teal-800 border border-teal-200 px-2 py-0.5 rounded text-xs font-bold mono-font dark:bg-brand-teal/10 dark:border-brand-teal/20 dark:text-brand-teal" id="participant-count-badge">0 Aday</span>
                 </div>
 
                 <!-- Add Input -->
                 <div class="flex flex-col gap-2 mb-4">
                   <div class="flex gap-2">
-                    <input type="text" id="raffle-name-input" placeholder="İsim yazın..." class="flex-grow bg-white border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-brand-teal text-slate-800 dark:bg-slate-900/60 dark:border-slate-800/80 dark:text-slate-200" onkeydown="handleNameInputKey(event)">
-                    <button onclick="addParticipant()" class="px-4 py-2 bg-brand-teal text-slate-950 font-bold text-sm rounded-lg hover:bg-brand-teal-hover transition-colors cursor-pointer flex items-center gap-1.5">
+                    <input type="text" id="raffle-name-input" placeholder="İsim yazın..." class="flex-grow bg-white border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-teal-700 text-slate-850 dark:bg-slate-905 dark:border-slate-800 dark:text-slate-200 dark:focus:border-brand-teal" onkeydown="handleNameInputKey(event)">
+                    <button onclick="addParticipant()" class="px-4 py-2 bg-teal-700 text-white font-bold text-sm rounded-lg hover:bg-teal-800 transition-colors cursor-pointer flex items-center gap-1.5 dark:bg-brand-teal dark:hover:bg-brand-teal-hover dark:text-slate-950">
                       <i data-lucide="plus" class="w-4 h-4"></i>
                       Ekle
                     </button>
                   </div>
-                  <div class="text-center text-xs text-slate-450">- veya -</div>
-                  <textarea id="raffle-bulk-input" rows="3" placeholder="Her satıra veya virgüle bir isim yazıp toplu ekleyin..." class="w-full bg-white border border-slate-200 rounded-lg px-3 py-2 text-xs focus:outline-none focus:border-brand-teal text-slate-800 resize-none dark:bg-slate-900/60 dark:border-slate-800/80 dark:text-slate-200"></textarea>
+                  <div class="text-center text-xs text-slate-400 font-bold">- veya -</div>
+                  <textarea id="raffle-bulk-input" rows="3" placeholder="Her satıra veya virgüle bir isim yazıp toplu ekleyin..." class="w-full bg-white border border-slate-300 rounded-lg px-3 py-2 text-xs focus:outline-none focus:border-teal-700 text-slate-850 resize-none dark:bg-slate-905 dark:border-slate-800 dark:text-slate-200 dark:focus:border-brand-teal"></textarea>
                   <button onclick="addBulkParticipants()" class="py-1.5 bg-slate-100 hover:bg-slate-200 text-xs font-semibold rounded-lg transition-colors cursor-pointer text-slate-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700">Toplu Ekle</button>
                 </div>
 
                 <!-- Active tags grid -->
                 <div class="flex flex-col gap-2">
                   <div class="flex items-center justify-between text-xs text-slate-500 mb-1">
-                    <span>Eklenen Kişiler:</span>
-                    <button onclick="clearParticipants()" class="text-danger-crimson hover:underline cursor-pointer">Tümünü Sil</button>
+                    <span class="font-bold">Eklenen Kişiler:</span>
+                    <button onclick="clearParticipants()" class="text-red-700 font-bold hover:underline cursor-pointer dark:text-danger-crimson">Tümünü Sil</button>
                   </div>
-                  <div id="participants-list" class="flex flex-wrap gap-1.5 max-h-[180px] overflow-y-auto p-2 bg-slate-50 rounded-lg border border-slate-200 dark:bg-slate-950/20 dark:border-slate-900">
+                  <div id="participants-list" class="flex flex-wrap gap-1.5 max-h-[180px] overflow-y-auto p-2.5 bg-slate-100 rounded-lg border border-slate-200 dark:bg-slate-950/40 dark:border-slate-900">
                     <!-- Participant pills added here -->
                     <span class="text-xs text-slate-500 w-full text-center py-2">Henüz kimse eklenmedi.</span>
                   </div>
@@ -386,43 +386,43 @@
             <div class="md:col-span-3 flex flex-col gap-6">
               
               <!-- Setup and Execution Panel -->
-              <div class="glass-panel p-6 rounded-2xl border border-slate-200 glow-teal flex flex-col justify-between min-h-[460px] dark:border-slate-850">
+              <div class="solid-card p-6 rounded-2xl border border-slate-200 glow-teal flex flex-col justify-between min-h-[460px] dark:border-slate-850">
                 
                 <!-- Setup -->
                 <div>
                   <h3 class="font-bold text-sm tracking-wide text-slate-500 uppercase mb-4 flex items-center gap-2 dark:text-slate-400">
-                    <i data-lucide="settings" class="w-4 h-4 text-brand-teal"></i>
+                    <i data-lucide="settings" class="w-4 h-4 text-teal-700 dark:text-brand-teal"></i>
                     Çekiliş Ayarları
                   </h3>
                   
                   <div class="grid grid-cols-2 gap-4 mb-6">
                     <div class="flex flex-col gap-1.5">
-                      <label class="text-xs font-semibold text-slate-500 dark:text-slate-400">Asil Kazanan Sayısı</label>
-                      <input type="number" id="winner-count" value="1" min="1" max="100" class="bg-white border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-brand-teal text-slate-800 font-semibold mono-font dark:bg-slate-900 dark:border-slate-800 dark:text-slate-200">
+                      <label class="text-xs font-bold text-slate-600 dark:text-slate-400">Asil Kazanan Sayısı</label>
+                      <input type="number" id="winner-count" value="1" min="1" max="100" class="bg-white border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-teal-750 text-slate-800 font-semibold mono-font dark:bg-slate-900 dark:border-slate-800 dark:text-slate-200">
                     </div>
                     <div class="flex flex-col gap-1.5">
-                      <label class="text-xs font-semibold text-slate-500 dark:text-slate-400">Yedek Kazanan Sayısı</label>
-                      <input type="number" id="backup-count" value="0" min="0" max="100" class="bg-white border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-brand-teal text-slate-800 font-semibold mono-font dark:bg-slate-900 dark:border-slate-800 dark:text-slate-200">
+                      <label class="text-xs font-bold text-slate-600 dark:text-slate-400">Yedek Kazanan Sayısı</label>
+                      <input type="number" id="backup-count" value="0" min="0" max="100" class="bg-white border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-teal-755 text-slate-800 font-semibold mono-font dark:bg-slate-900 dark:border-slate-800 dark:text-slate-200">
                     </div>
                   </div>
                 </div>
 
                 <!-- Stage View -->
-                <div class="my-auto flex flex-col items-center justify-center p-8 bg-slate-50 rounded-2xl border border-slate-200 min-h-[180px] dark:bg-slate-950/40 dark:border-slate-900/60">
+                <div class="my-auto flex flex-col items-center justify-center p-8 bg-slate-100 rounded-2xl border border-slate-200 min-h-[180px] dark:bg-slate-950/40 dark:border-slate-900/60">
                   
                   <!-- Screen: Idle -->
                   <div id="raffle-stage-idle" class="text-center">
-                    <div class="w-12 h-12 mx-auto mb-3 bg-brand-teal/10 border border-brand-teal/20 rounded-full flex items-center justify-center">
-                      <i data-lucide="gift" class="w-6 h-6 text-brand-teal"></i>
+                    <div class="w-12 h-12 mx-auto mb-3 bg-teal-100 border border-teal-200 rounded-full flex items-center justify-center dark:bg-brand-teal/10 dark:border-brand-teal/20">
+                      <i data-lucide="gift" class="w-6 h-6 text-teal-700 dark:text-brand-teal"></i>
                     </div>
-                    <h4 class="text-md font-semibold text-slate-700 dark:text-slate-300">Çekilişi Başlatmaya Hazır</h4>
+                    <h4 class="text-md font-bold text-slate-800 dark:text-slate-300">Çekilişi Başlatmaya Hazır</h4>
                     <p class="text-xs text-slate-500 mt-0.5 dark:text-slate-400">En az kazanan sayısı kadar isim ekleyip butona bas.</p>
                   </div>
 
                   <!-- Screen: Shuffling -->
                   <div id="raffle-stage-shuffling" class="hidden text-center">
-                    <div class="text-xs text-brand-teal font-bold uppercase tracking-widest animate-pulse mb-3">Çekiliş Yapılıyor...</div>
-                    <div id="raffle-shuffle-box" class="text-2xl font-bold tracking-wide text-slate-850 min-h-[40px] px-6 py-2 bg-white border border-slate-200 rounded-xl shadow-inner flex items-center justify-center animate-shuffle dark:text-slate-200 dark:bg-slate-900 dark:border-slate-800">
+                    <div class="text-xs text-teal-800 font-extrabold uppercase tracking-widest animate-pulse mb-3 dark:text-brand-teal">Çekiliş Yapılıyor...</div>
+                    <div id="raffle-shuffle-box" class="text-2xl font-bold tracking-wide text-white min-h-[40px] px-6 py-2.5 bg-slate-800 border border-slate-700 rounded-xl shadow-inner flex items-center justify-center animate-shuffle dark:text-slate-200 dark:bg-slate-900 dark:border-slate-800">
                       -
                     </div>
                   </div>
@@ -430,7 +430,7 @@
                   <!-- Screen: Result -->
                   <div id="raffle-stage-results" class="hidden w-full flex flex-col gap-4">
                     <div class="text-center">
-                      <h4 class="text-xs font-bold text-brand-gold uppercase tracking-widest mb-2">🎉 Kazananlar Listesi 🎉</h4>
+                      <h4 class="text-xs font-bold text-amber-700 uppercase tracking-widest mb-2 dark:text-brand-gold">🎉 Kazananlar Listesi 🎉</h4>
                       
                       <!-- Main Winners Container -->
                       <div class="flex flex-col gap-1.5 justify-center items-center max-h-[140px] overflow-y-auto px-4" id="raffle-winners-output">
@@ -441,7 +441,7 @@
                     <!-- Backup Winners Container -->
                     <div id="raffle-backups-container" class="hidden border-t border-slate-200 pt-3 dark:border-slate-800">
                       <h5 class="text-[11px] font-bold text-slate-500 uppercase text-center tracking-wider mb-1.5">Yedek Kazananlar</h5>
-                      <div class="flex flex-wrap justify-center gap-1.5 text-xs text-slate-400" id="raffle-backups-output">
+                      <div class="flex flex-wrap justify-center gap-1.5 text-xs text-slate-600" id="raffle-backups-output">
                         <!-- Backup pills added here -->
                       </div>
                     </div>
@@ -451,7 +451,7 @@
 
                 <!-- Draw Action button -->
                 <div class="pt-4 flex justify-center">
-                  <button id="draw-btn" onclick="drawRaffle()" class="flex items-center gap-2 px-8 py-3.5 bg-brand-teal text-slate-950 font-bold rounded-xl shadow-lg hover:bg-brand-teal-hover transition-all duration-200 cursor-pointer transform hover:-translate-y-0.5 active:translate-y-0 text-md tracking-wider pulse-glow">
+                  <button id="draw-btn" onclick="drawRaffle()" class="flex items-center gap-2 px-8 py-3.5 bg-teal-700 text-white font-bold rounded-xl shadow-md hover:bg-teal-800 transition-all duration-200 cursor-pointer transform hover:-translate-y-0.5 active:translate-y-0 text-md tracking-wider dark:bg-brand-teal dark:hover:bg-brand-teal-hover dark:text-slate-950 pulse-glow">
                     <i data-lucide="sparkles" class="w-5 h-5"></i>
                     ÇEKİLİŞİ YAP!
                   </button>
@@ -476,10 +476,10 @@
         </div>
         <div class="flex items-center gap-4">
           <span class="flex items-center gap-1">
-            <i data-lucide="shield-check" class="w-3.5 h-3.5 text-brand-teal"></i> Güvenli &amp; Yerel
+            <i data-lucide="shield-check" class="w-3.5 h-3.5 text-teal-700 dark:text-brand-teal"></i> Güvenli &amp; Yerel
           </span>
           <span class="flex items-center gap-1">
-            <i data-lucide="code" class="w-3.5 h-3.5 text-brand-gold"></i> Saf HTML/JS/Tailwind CSS
+            <i data-lucide="code" class="w-3.5 h-3.5 text-amber-700 dark:text-brand-gold"></i> Saf HTML/JS/Tailwind CSS
           </span>
         </div>
       </div>

@@ -3,6 +3,7 @@
 
 :root {
   font-family: 'Space Grotesk', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  color-scheme: light dark;
 }
 
 .mono-font {
@@ -15,78 +16,76 @@
   height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: rgba(15, 17, 21, 0.05);
+  background: #f1f5f9;
 }
 .dark ::-webkit-scrollbar-track {
-  background: rgba(15, 17, 21, 0.5);
+  background: #0b0c10;
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(6, 182, 212, 0.2);
+  background: #cbd5e1;
   border-radius: 3px;
 }
+.dark ::-webkit-scrollbar-thumb {
+  background: #334155;
+}
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(6, 182, 212, 0.4);
+  background: #94a3b8;
 }
 
-/* Glassmorphism Panels */
-.glass-panel {
-  background: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(0, 0, 0, 0.06);
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.03);
+/* Solid Premium Cards instead of simple glassmorphism to improve contrast */
+.solid-card {
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+  transition: all 0.25s ease;
 }
 
-.dark .glass-panel {
-  background: rgba(22, 27, 34, 0.6);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.04);
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+.dark .solid-card {
+  background-color: #111827;
+  border: 1px solid #1f2937;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -4px rgba(0, 0, 0, 0.3);
 }
 
-/* Carbon Dice Tabletop Style */
+/* Premium Card Hover Effects */
+.card-hover-teal:hover {
+  border-color: #0f766e;
+  box-shadow: 0 10px 25px -5px rgba(15, 118, 110, 0.1), 0 8px 10px -6px rgba(15, 118, 110, 0.1);
+  transform: translateY(-2px);
+}
+.dark .card-hover-teal:hover {
+  border-color: #06b6d4;
+  box-shadow: 0 10px 30px -5px rgba(6, 182, 212, 0.25), 0 8px 10px -6px rgba(6, 182, 212, 0.25);
+  transform: translateY(-2px);
+}
+
+.card-hover-gold:hover {
+  border-color: #b45309;
+  box-shadow: 0 10px 25px -5px rgba(180, 83, 9, 0.1), 0 8px 10px -6px rgba(180, 83, 9, 0.1);
+  transform: translateY(-2px);
+}
+.dark .card-hover-gold:hover {
+  border-color: #facc15;
+  box-shadow: 0 10px 30px -5px rgba(250, 204, 21, 0.25), 0 8px 10px -6px rgba(250, 204, 21, 0.25);
+  transform: translateY(-2px);
+}
+
+/* Dice Tabletop (Carbon Texture vs Velvet Texture) */
 .dice-tray {
-  background-color: #f1f5f9;
-  background-image: radial-gradient(rgba(0, 0, 0, 0.05) 1px, transparent 0), radial-gradient(rgba(0, 0, 0, 0.05) 1px, transparent 0);
-  background-size: 16px 16px;
-  background-position: 0 0, 8px 8px;
-  border: 1px dashed rgba(0, 0, 0, 0.15);
-  box-shadow: inset 0 8px 24px rgba(0, 0, 0, 0.04);
+  background-color: #cbd5e1;
+  background-image: radial-gradient(rgba(0, 0, 0, 0.08) 1.5px, transparent 0), radial-gradient(rgba(0, 0, 0, 0.08) 1.5px, transparent 0);
+  background-size: 14px 14px;
+  background-position: 0 0, 7px 7px;
+  border: 2px solid #94a3b8;
+  box-shadow: inset 0 6px 12px rgba(0, 0, 0, 0.08);
 }
 
 .dark .dice-tray {
-  background-color: #0d0f14;
-  background-image: radial-gradient(rgba(250, 204, 21, 0.05) 1px, transparent 0), radial-gradient(rgba(250, 204, 21, 0.05) 1px, transparent 0);
+  background-color: #090a0f;
+  background-image: radial-gradient(rgba(250, 204, 21, 0.05) 1.2px, transparent 0), radial-gradient(rgba(250, 204, 21, 0.05) 1.2px, transparent 0);
   background-size: 16px 16px;
   background-position: 0 0, 8px 8px;
-  border: 1px dashed rgba(250, 204, 21, 0.1);
-  box-shadow: inset 0 8px 24px rgba(0, 0, 0, 0.4);
-}
-
-/* Glow Border Animations */
-.glow-gold {
-  box-shadow: 0 4px 20px rgba(250, 204, 21, 0.04);
-  border-color: rgba(250, 204, 21, 0.15);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.glow-gold:hover {
-  box-shadow: 0 10px 30px rgba(250, 204, 21, 0.18);
-  border-color: rgba(250, 204, 21, 0.5);
-  transform: translateY(-2px);
-}
-
-.glow-teal {
-  box-shadow: 0 4px 20px rgba(6, 182, 212, 0.04);
-  border-color: rgba(6, 182, 212, 0.15);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.glow-teal:hover {
-  box-shadow: 0 10px 30px rgba(6, 182, 212, 0.18);
-  border-color: rgba(6, 182, 212, 0.5);
-  transform: translateY(-2px);
+  border: 2px dashed rgba(250, 204, 21, 0.15);
+  box-shadow: inset 0 8px 24px rgba(0, 0, 0, 0.6);
 }
 
 /* 3D Dice Styling */
@@ -103,14 +102,14 @@
   height: 100%;
   position: relative;
   transform-style: preserve-3d;
-  transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transition: transform 0.85s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .dice-face {
   position: absolute;
   width: 60px;
   height: 60px;
-  border-radius: 8px;
+  border-radius: 10px;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(3, 1fr);
@@ -119,22 +118,22 @@
   align-items: center;
   justify-items: center;
   background: #ffffff;
-  border: 2px solid #0f172a;
-  box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.1);
+  border: 2px solid #1e293b;
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.15), 0 3px 5px rgba(0, 0, 0, 0.1);
 }
 
 .dark .dice-face {
   background: #1e293b;
   border: 2px solid #facc15;
-  box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.5);
+  box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.5), 0 0 10px rgba(250, 204, 21, 0.15);
 }
 
 /* Dice dots */
 .dice-dot {
-  width: 8px;
-  height: 8px;
+  width: 9px;
+  height: 9px;
   border-radius: 50%;
-  background-color: #0f172a;
+  background-color: #1e293b;
 }
 
 .dark .dice-dot {
@@ -203,29 +202,26 @@
 
 @keyframes handShakePlayer {
   0%, 100% { transform: rotate(0deg) translateY(0); }
-  25% { transform: rotate(-15deg) translateY(-10px); }
-  75% { transform: rotate(15deg) translateY(10px); }
+  25% { transform: rotate(-15deg) translateY(-15px); }
+  75% { transform: rotate(15deg) translateY(15px); }
 }
 
 @keyframes handShakeComputer {
   0%, 100% { transform: scaleX(-1) rotate(0deg) translateY(0); }
-  25% { transform: scaleX(-1) rotate(-15deg) translateY(-10px); }
-  75% { transform: scaleX(-1) rotate(15deg) translateY(10px); }
+  25% { transform: scaleX(-1) rotate(-15deg) translateY(-15px); }
+  75% { transform: scaleX(-1) rotate(15deg) translateY(15px); }
 }
 
-/* Sola bakan oyuncu elinin sallanması */
 .animate-shake-player {
   animation: handShakePlayer 0.35s ease-in-out infinite;
   transform-origin: bottom center;
 }
 
-/* Sağa bakan (aynalanmış) bilgisayar elinin sallanması */
 .animate-shake-computer {
   animation: handShakeComputer 0.35s ease-in-out infinite;
   transform-origin: bottom center;
 }
 
-/* Default computer display mirror */
 .computer-hand-mirror {
   transform: scaleX(-1);
 }
@@ -234,8 +230,8 @@
 /* Slot Shuffling Animation (Giveaway) */
 @keyframes slotShuffle {
   0% { transform: translateY(0); opacity: 1; }
-  50% { transform: translateY(-15px); opacity: 0; }
-  51% { transform: translateY(15px); opacity: 0; }
+  50% { transform: translateY(-12px); opacity: 0; }
+  51% { transform: translateY(12px); opacity: 0; }
   100% { transform: translateY(0); opacity: 1; }
 }
 
@@ -245,10 +241,28 @@
 
 /* Keyframes for simple scale feedback */
 @keyframes pulseGlow {
-  0%, 100% { box-shadow: 0 0 10px rgba(250, 204, 21, 0.2); }
-  50% { box-shadow: 0 0 25px rgba(250, 204, 21, 0.4); }
+  0%, 100% { box-shadow: 0 0 10px rgba(250, 204, 21, 0.1); }
+  50% { box-shadow: 0 0 20px rgba(250, 204, 21, 0.3); }
 }
 
 .pulse-glow {
   animation: pulseGlow 2s infinite;
+}
+
+/* Tab active indicator bar */
+.tab-btn {
+  position: relative;
+}
+.tab-btn.active::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 25%;
+  height: 50%;
+  width: 4px;
+  background-color: #b45309; /* Amber 700 for light mode */
+  border-radius: 2px;
+}
+.dark .tab-btn.active::after {
+  background-color: #facc15; /* Gold for dark mode */
 }
