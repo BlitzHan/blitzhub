@@ -46,6 +46,12 @@
       <button class="tab" id="tab-raffle" role="tab" aria-controls="panel-raffle" aria-selected="false" onclick="switchTab('raffle')">
         🎁 Çekiliş
       </button>
+      <button class="tab" id="tab-coin" role="tab" aria-controls="panel-coin" aria-selected="false" onclick="switchTab('coin')">
+        🪙 Yazı Tura
+      </button>
+      <button class="tab" id="tab-math" role="tab" aria-controls="panel-math" aria-selected="false" onclick="switchTab('math')">
+        🧮 Matematik
+      </button>
     </div>
 
     <!-- ─────────── TAŞ KAĞIT MAKAS ─────────── -->
@@ -236,6 +242,115 @@
           <div class="backups-list" id="raffle-backups-output-console"></div>
         </div>
         <button class="btn-secondary" onclick="resetRaffle()">Yeni Çekiliş</button>
+      </div>
+    </div>
+
+    <!-- ─────────── YAZI TURA ─────────── -->
+    <div class="panel hidden" id="panel-coin" role="tabpanel" aria-labelledby="tab-coin">
+      <div class="coin-arena">
+        <div class="coin-scene">
+          <div class="coin" id="coin-element">
+            <div class="coin-face coin-front">
+              <span class="coin-symbol">🪙</span>
+              <span class="coin-text">YAZI</span>
+            </div>
+            <div class="coin-face coin-back">
+              <span class="coin-symbol">⚡</span>
+              <span class="coin-text">TURA</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="coin-result-text" class="coin-result-label">—</div>
+
+      <button class="btn-primary btn-wide" id="flip-coin-btn" onclick="flipCoin()">
+        🪙 Parayı Çevir
+      </button>
+
+      <div class="coin-stats">
+        <div class="stat-item">
+          <span class="stat-label">Toplam Atış</span>
+          <span class="stat-val" id="coin-stat-total">0</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">Yazı</span>
+          <span class="stat-val" id="coin-stat-heads">0 (0%)</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">Tura</span>
+          <span class="stat-val" id="coin-stat-tails">0 (0%)</span>
+        </div>
+      </div>
+
+      <div class="history-section">
+        <div class="history-header">
+          <span class="history-title">Geçmiş</span>
+          <button class="btn-ghost btn-small" onclick="clearCoinHistory()">Temizle</button>
+        </div>
+        <div class="history-list-row" id="coin-history-list">
+          <span class="empty-msg">Henüz fırlatma yapılmadı.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─────────── HIZLI MATEMATİK ─────────── -->
+    <div class="panel hidden" id="panel-math" role="tabpanel" aria-labelledby="tab-math">
+      <!-- 1. Başlangıç Ekranı -->
+      <div id="math-stage-start" class="math-stage">
+        <div class="math-intro">
+          <span class="math-icon">🧮</span>
+          <h2 class="math-title">Hızlı Matematik</h2>
+          <p class="math-desc">Her soru için 10 saniyen var! Doğru cevap verdikçe süre sıfırlanır ve sorular zorlaşır. En yüksek skoru yapmaya çalış!</p>
+          <div class="math-highscore-display">
+            🏆 En Yüksek Skor: <strong id="math-highscore-val">0</strong>
+          </div>
+        </div>
+        <button class="btn-primary btn-wide" onclick="startMathGame()">Oyuna Başla</button>
+      </div>
+
+      <!-- 2. Oyun İçi Ekran -->
+      <div id="math-stage-play" class="math-stage hidden">
+        <div class="math-game-header">
+          <div class="math-score-box">
+            Skor: <span id="math-current-score">0</span>
+          </div>
+          <div class="math-timer-box">
+            Süre: <span id="math-timer-text">10.0</span>s
+          </div>
+        </div>
+
+        <!-- Süre Çubuğu -->
+        <div class="timer-track">
+          <div class="timer-bar" id="math-timer-bar"></div>
+        </div>
+
+        <!-- Soru Ekranı -->
+        <div class="math-question-container">
+          <div class="math-question" id="math-question-text">12 + 15 = ?</div>
+        </div>
+
+        <!-- Seçenekler Grid -->
+        <div class="math-options" id="math-options-container">
+          <!-- 4 option button -->
+        </div>
+      </div>
+
+      <!-- 3. Oyun Bitti Ekranı -->
+      <div id="math-stage-over" class="math-stage hidden">
+        <div class="math-over-box">
+          <span class="gameover-icon">🚨</span>
+          <h2 class="gameover-title">Oyun Bitti!</h2>
+          <p class="gameover-desc">Süre bitti veya yanlış cevap verdin.</p>
+          <div class="math-final-score">
+            Skorun: <strong id="math-final-score-val">0</strong>
+          </div>
+          <div id="math-new-record" class="new-record-banner hidden">
+            🎉 Yeni En Yüksek Skor!
+          </div>
+        </div>
+        <button class="btn-primary btn-wide" onclick="startMathGame()">Tekrar Oyna</button>
+        <button class="btn-secondary btn-wide" style="margin-top: 8px;" onclick="resetMathStage()">Ana Menüye Dön</button>
       </div>
     </div>
 
